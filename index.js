@@ -93,20 +93,29 @@ const deleteProduct = (req, res) => {
     })
 }
 
-// Get all products
-app.get("/api/v1/products", getAllProducts);
+// // Get all products
+// app.get("/api/v1/products", getAllProducts);
 
-// Get product by ID
-app.get("/api/v1/products/:id", getProductById);
+// // Get product by ID
+// app.get("/api/v1/products/:id", getProductById);
 
-// Create a new product
-app.post("/api/v1/products", createNewProduct);
+// // Create a new product
+// app.post("/api/v1/products", createNewProduct);
 
-// Update a product
-app.patch("/api/v1/products/:id", updateProduct)
+// // Update a product
+// app.patch("/api/v1/products/:id", updateProduct)
 
-// Delete a product
-app.delete("/api/v1/products/:id", deleteProduct);
+// // Delete a product
+// app.delete("/api/v1/products/:id", deleteProduct);
+
+app.route('/api/v1/products')
+    .get(getAllProducts)
+    .post(createNewProduct)
+
+app.route('/api/v1/products/:id')
+    .get(getProductById)
+    .patch(updateProduct)
+    .delete(deleteProduct)
 
 const PORT = 3000;
 
