@@ -7,10 +7,23 @@ const products = JSON.parse(fs.readFileSync(`${__dirname}/data/products.json`, "
 // Middleware to parse JSON body
 app.use(express.json());
 
+// Middleware to log the request
+app.use((req, res, next) => {
+    console.log("Hello from the middleware 🤙!");
+    next();
+})
+
+// Middleware to measure the time it takes to execute the request
+app.use((req, res, next) => {
+    req.requestTime = new Date().toISOString();
+    next();
+})
+
 // function of get all products
 const getAllProducts = (req, res) => {
     res.status(200).json({
         status: "success",
+        requestedAt: req.requestTime,
         totalResults: products.length,
         data: { products },
     });
