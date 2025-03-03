@@ -35,14 +35,8 @@ const getProductById = (req, res) => {
     });
 }
 
-// Get all products
-app.get("/api/v1/products", getAllProducts);
-
-// Get product by ID
-app.get("/api/v1/products/:id", getProductById);
-
-// Create a new product
-app.post("/api/v1/products", (req, res) => {
+// function to create a new product
+const createNewProduct = (req, res) => {
     const newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
     const newProduct = Object.assign({ id: newId }, req.body);
 
@@ -61,10 +55,9 @@ app.post("/api/v1/products", (req, res) => {
             product: newProduct,
         });
     });
-});
+}
 
-// Update a product
-app.patch("/api/v1/products/:id", (req, res) => {
+const updateProduct = (req, res) => {
     const { id } = req.params;
     const product = products.find((p) => p.id === +id);
 
@@ -81,10 +74,9 @@ app.patch("/api/v1/products/:id", (req, res) => {
             product : "Product updated successfully ..."
         },
     })
-})
+}
 
-// Delete a product
-app.delete("/api/v1/products/:id", (req, res) => {
+const deleteProduct = (req, res) => {
     const { id } = req.params;
     const productIndex = products.findIndex((p) => p.id === +id);
 
@@ -99,7 +91,22 @@ app.delete("/api/v1/products/:id", (req, res) => {
         status: "success",
         data: null,
     })
-});
+}
+
+// Get all products
+app.get("/api/v1/products", getAllProducts);
+
+// Get product by ID
+app.get("/api/v1/products/:id", getProductById);
+
+// Create a new product
+app.post("/api/v1/products", createNewProduct);
+
+// Update a product
+app.patch("/api/v1/products/:id", updateProduct)
+
+// Delete a product
+app.delete("/api/v1/products/:id", deleteProduct);
 
 const PORT = 3000;
 
