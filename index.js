@@ -3,6 +3,9 @@ const fs = require("fs");
 const morgan = require("morgan");
 
 const app = express();
+// creating the Routes from the app 
+const productRouter = express.Router();
+const userRouter = express.Router();
 
 const products = JSON.parse(fs.readFileSync(`${__dirname}/data/products.json`, "utf-8"));
 
@@ -23,6 +26,10 @@ app.use((req, res, next) => {
 
 // middleware to log the request
 app.use(morgan("dev"))
+
+// creating the middleware for the Routes
+app.use('/api/v1/products', productRouter)
+app.use('/api/v1/users', userRouter)
 
 // products routes handlers
 const getAllProducts = (req, res) => {
@@ -146,21 +153,25 @@ const deleteUser = (req, res) => {
 }
 
 // product routes
-app.route('/api/v1/products')
+productRouter
+    .route('/')
     .get(getAllProducts)
     .post(createProduct)
 
-app.route('/api/v1/products/:id')
+productRouter
+    .route('/:id')
     .get(getProduct)
     .patch(updateProduct)
     .delete(deleteProduct)
 
 // user routes
-app.route('/api/v1/users')
+userRouter
+    .route('/')
     .get(getAllUsers)
     .post(createUser)
 
-app.route('/api/v1/users/:id')
+userRouter
+    .route('/:id')
     .get(getUser)
     .patch(updateUser)
     .delete(deleteUser)
