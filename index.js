@@ -23,8 +23,4 @@ app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', userRouter)
 
 
-// start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT} 🚀`);
-});
+module.exports = app;
