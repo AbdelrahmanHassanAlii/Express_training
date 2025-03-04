@@ -1,5 +1,7 @@
 const express = require("express");
 const fs = require("fs");
+const morgan = require("morgan");
+
 const app = express();
 
 const products = JSON.parse(fs.readFileSync(`${__dirname}/data/products.json`, "utf-8"));
@@ -19,7 +21,10 @@ app.use((req, res, next) => {
     next();
 })
 
-// function of get all products
+// middleware to log the request
+app.use(morgan("dev"))
+
+// products routes handlers
 const getAllProducts = (req, res) => {
     res.status(200).json({
         status: "success",
@@ -29,9 +34,8 @@ const getAllProducts = (req, res) => {
     });
 }
 
-// function to get product by id
-const getProductById = (req, res) => {
-    console.log(req.params);  // ✅ Now this will work!
+const getProduct = (req, res) => {
+    console.log(req.params);
     const { id } = req.params;
     const product = products.find((p) => p.id === +id);
 
@@ -48,8 +52,7 @@ const getProductById = (req, res) => {
     });
 }
 
-// function to create a new product
-const createNewProduct = (req, res) => {
+const createProduct = (req, res) => {
     const newId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
     const newProduct = Object.assign({ id: newId }, req.body);
 
@@ -106,32 +109,64 @@ const deleteProduct = (req, res) => {
     })
 }
 
-// // Get all products
-// app.get("/api/v1/products", getAllProducts);
+// user routes handlers
+const getAllUsers = (req, res) => {
+    res.status(500).json({
+        status: "error",
+        message: "not implemented yet",
+    })
+}
 
-// // Get product by ID
-// app.get("/api/v1/products/:id", getProductById);
+const getUser = (req, res) => {
+    res.status(500).json({
+        status: "error",
+        message: "not implemented yet",
+    })
+}
 
-// // Create a new product
-// app.post("/api/v1/products", createNewProduct);
+const createUser = (req, res) => {
+    res.status(500).json({
+        status: "error",
+        message: "not implemented yet",
+    })
+}
 
-// // Update a product
-// app.patch("/api/v1/products/:id", updateProduct)
+const updateUser = (req, res) => {
+    res.status(500).json({
+        status: "error",
+        message: "not implemented yet",
+    })
+}
 
-// // Delete a product
-// app.delete("/api/v1/products/:id", deleteProduct);
+const deleteUser = (req, res) => {
+    res.status(500).json({
+        status: "error",
+        message: "not implemented yet",
+    })
+}
 
+// product routes
 app.route('/api/v1/products')
     .get(getAllProducts)
-    .post(createNewProduct)
+    .post(createProduct)
 
 app.route('/api/v1/products/:id')
-    .get(getProductById)
+    .get(getProduct)
     .patch(updateProduct)
     .delete(deleteProduct)
 
-const PORT = 3000;
+// user routes
+app.route('/api/v1/users')
+    .get(getAllUsers)
+    .post(createUser)
 
+app.route('/api/v1/users/:id')
+    .get(getUser)
+    .patch(updateUser)
+    .delete(deleteUser)
+
+// start the server
+const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT} 🚀`);
 });
