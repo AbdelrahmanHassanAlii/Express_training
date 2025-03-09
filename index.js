@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 })
 
 // middleware to log the request
-app.use(morgan("dev"))
+if (process.env.NODE_ENV === 'Development') app.use(morgan("dev"))
 
 // creating the middleware for the Routes
 app.use('/api/v1/products', productRouter)
