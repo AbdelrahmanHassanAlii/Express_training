@@ -4,6 +4,11 @@ const usersController = require("../controllers/users");
 // creating the Routes from express 
 const router = express.Router();
 
+router.param(`id`, (req, res, next, val) => {
+    console.log(`the id is ${val}`);
+    next();
+})
+
 // user routes
 router
     .route('/')
