@@ -5,6 +5,15 @@ const path = require("path");
 const productsPath = path.join(__dirname, "../data/products.json");
 const products = JSON.parse(fs.readFileSync(productsPath, "utf-8"));
 
+// check the body middleware
+exports.checkBody = (req, res, next) => {
+    const { name, price, description } = req.body;
+    if (!name) return res.status(400).json({ status: "fail", message: `Missing name` });
+    if (!price) return res.status(400).json({ status: "fail", message: `Missing price` });
+    if (!description) return res.status(400).json({ status: "fail", message: `Missing description` });
+    next();
+}
+
 // check the id is valid or not
 exports.checkId = (req, res, next, val) => {
     if (products[val]) next();
