@@ -9,6 +9,9 @@ const app = express();
 // Middleware to parse JSON body
 app.use(express.json());
 
+// Middleware to serve the static files
+app.use(express.static(`${__dirname}/public`));
+
 // Middleware to measure the time it takes to execute the request
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
