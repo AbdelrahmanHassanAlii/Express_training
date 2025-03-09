@@ -5,6 +5,11 @@ const path = require("path");
 const productsPath = path.join(__dirname, "../data/products.json");
 const products = JSON.parse(fs.readFileSync(productsPath, "utf-8"));
 
+// check the id is valid or not
+exports.checkId = (req, res, next, val) => {
+    if (products[val]) next();
+    else return res.status(404).json({ status: "fail", message: `Product with id ${val} not found` });
+};
 
 // products routes Controller
 exports.getAllProducts = (req, res) => {
@@ -21,12 +26,12 @@ exports.getProduct = (req, res) => {
     const { id } = req.params;
     const product = products.find((p) => p.id === +id);
 
-    if (!product) {
-        return res.status(404).json({
-            status: "fail",
-            message: `Product with id ${id} not found`,
-        });
-    }
+    // if (!product) {
+    //     return res.status(404).json({
+    //         status: "fail",
+    //         message: `Product with id ${id} not found`,
+    //     });
+    // }
 
     res.status(200).json({
         status: "success",
@@ -59,17 +64,17 @@ exports.updateProduct = (req, res) => {
     const { id } = req.params;
     const product = products.find((p) => p.id === +id);
 
-    if (!product) {
-        return res.status(404).json({
-            status: "fail",
-            message: `Product with id ${id} not found`,
-        });
-    }
+    // if (!product) {
+    //     return res.status(404).json({
+    //         status: "fail",
+    //         message: `Product with id ${id} not found`,
+    //     });
+    // }
 
     res.status(200).json({
         status: "success",
-        data: { 
-            product : "Product updated successfully ..."
+        data: {
+            product: "Product updated successfully ..."
         },
     })
 }
@@ -78,12 +83,12 @@ exports.deleteProduct = (req, res) => {
     const { id } = req.params;
     const productIndex = products.findIndex((p) => p.id === +id);
 
-    if (productIndex === -1) {
-        return res.status(404).json({
-            status: "fail",
-            message: `Product with id ${id} not found`,
-        });
-    }
+    // if (productIndex === -1) {
+    //     return res.status(404).json({
+    //         status: "fail",
+    //         message: `Product with id ${id} not found`,
+    //     });
+    // }
 
     res.status(204).json({
         status: "success",

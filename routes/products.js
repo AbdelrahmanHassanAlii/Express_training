@@ -4,6 +4,8 @@ const productsController = require("../controllers/products");
 // creating the Routes from the express 
 const router = express.Router();
 
+router.param(`id`, productsController.checkId)
+
 // product routes
 router
     .route('/')
