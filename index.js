@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
 const express = require("express");
 const morgan = require("morgan");
 
 const userRouter = require("./routes/users");
 const productRouter = require("./routes/products");
+const DBConnection = require("./DBConnection");
 
 const app = express();
 
@@ -20,6 +22,9 @@ app.use((req, res, next) => {
 
 // middleware to log the request
 if (process.env.NODE_ENV === 'development') app.use(morgan("dev"))
+
+// connect to MongoDB
+DBConnection();
 
 // creating the middleware for the Routes
 app.use('/api/v1/products', productRouter)
