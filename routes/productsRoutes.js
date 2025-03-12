@@ -1,16 +1,16 @@
 const express = require("express");
-const productsController = require("../controllers/products");
+const productsController = require("../controllers/productsControllers");
 
 // creating the Routes from the express 
 const router = express.Router();
 
-router.param(`id`, productsController.checkId)
+// router.param(`id`, productsController.checkId)
 
 // product routes
 router
     .route('/')
     .get(productsController.getAllProducts)
-    .post(productsController.checkBody, productsController.createProduct)
+    .post(productsController.createProduct)
 
 router
     .route('/:id')
