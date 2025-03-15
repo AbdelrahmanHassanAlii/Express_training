@@ -9,7 +9,7 @@ const router = express.Router();
 // product routes
 router
     .route('/')
-    .get(productsController.getAllProducts)
+    .get(productsController.getProducts)
     .post(productsController.createProduct)
 
 router

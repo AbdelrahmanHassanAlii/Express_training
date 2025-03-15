@@ -1,7 +1,7 @@
 const ProductModel = require("../models/productModel");
 
 // products routes Controller
-exports.getAllProducts = async (req, res) => {
+exports.getProducts = async (req, res) => {
     try {
         const products = await ProductModel.find();
         res.status(200).json({
