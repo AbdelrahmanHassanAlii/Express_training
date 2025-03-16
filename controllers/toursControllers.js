@@ -1,9 +1,19 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 const TourModel = require("../models/tourModel");
 
 // products routes Controller
 exports.getTours = async (req, res) => {
     try {
-        const Tours = await TourModel.find();
+        // prepare the query 
+        const queryObject = { ...req.query };
+        const excludeFields = ['page', 'sort', 'limit', 'fields'];
+        excludeFields.forEach((field) => delete queryObject[field]);
+        const query = TourModel.find(queryObject);
+
+        // await the query
+        const Tours = await query;
+
+        // return the response
         res.status(200).json({
             status: "success",
             requestedAt: req.requestTime,
