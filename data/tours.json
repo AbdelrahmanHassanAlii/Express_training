@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Majestic Nile Cruise",
+        "price": 250,
+        "priceDiscount": 20,
+        "summary": "Enjoy a breathtaking cruise along the Nile with guided tours and luxury accommodations.",
+        "description": "Experience the beauty of the Nile River with this all-inclusive cruise. Enjoy guided historical tours, top-tier dining, and relaxing stays on a 5-star cruise ship. Visit ancient temples and scenic landscapes while cruising through Egypt.",
+        "duration": 7,
+        "maxGroupSize": 20,
+        "difficulty": "medium",
+        "ratingsAverage": 4.8,
+        "ratingsQuantity": 120,
+        "imageCover": "nile-cruise.jpg",
+        "images": ["nile-1.jpg", "nile-2.jpg", "nile-3.jpg"],
+        "startDates": ["2025-03-10", "2025-04-15", "2025-05-20"]
+    },
+    {
+        "name": "Desert Safari Adventure",
+        "price": 180,
+        "priceDiscount": 15,
+        "summary": "Explore the vast Egyptian desert with an adrenaline-packed safari experience.",
+        "description": "Enjoy an unforgettable adventure in the desert with dune bashing, camel riding, and stargazing at night. Experience Bedouin hospitality, traditional food, and breathtaking sunset views.",
+        "duration": 3,
+        "maxGroupSize": 15,
+        "difficulty": "hard",
+        "ratingsAverage": 4.7,
+        "ratingsQuantity": 95,
+        "imageCover": "desert-safari.jpg",
+        "images": ["desert-1.jpg", "desert-2.jpg", "desert-3.jpg"],
+        "startDates": ["2025-03-05", "2025-04-12", "2025-05-18"]
+    },
+    {
+        "name": "Pyramids & Sphinx Tour",
+        "price": 120,
+        "priceDiscount": 10,
+        "summary": "Step back in time with a guided tour of the Great Pyramids and Sphinx.",
+        "description": "Discover the wonders of the ancient world with an expert guide. Explore the Pyramids of Giza, learn about their history, and capture amazing photos of the iconic Sphinx.",
+        "duration": 1,
+        "maxGroupSize": 30,
+        "difficulty": "easy",
+        "ratingsAverage": 4.9,
+        "ratingsQuantity": 200,
+        "imageCover": "pyramids-tour.jpg",
+        "images": ["pyramids-1.jpg", "pyramids-2.jpg", "pyramids-3.jpg"],
+        "startDates": ["2025-02-20", "2025-03-15", "2025-04-10"]
+    },
+    {
+        "name": "Red Sea Diving Experience",
+        "price": 300,
+        "priceDiscount": 25,
+        "summary": "Dive into the crystal-clear waters of the Red Sea and explore its vibrant marine life.",
+        "description": "Join a professional diving team and explore colorful coral reefs, shipwrecks, and exotic marine species. Ideal for both beginners and experienced divers.",
+        "duration": 5,
+        "maxGroupSize": 10,
+        "difficulty": "medium",
+        "ratingsAverage": 4.8,
+        "ratingsQuantity": 150,
+        "imageCover": "red-sea-diving.jpg",
+        "images": ["diving-1.jpg", "diving-2.jpg", "diving-3.jpg"],
+        "startDates": ["2025-03-08", "2025-04-22", "2025-05-30"]
+    }
+]
