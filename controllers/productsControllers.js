@@ -52,18 +52,38 @@ exports.createProduct = async (req, res) => {
 
 }
 
-exports.updateProduct = (req, res) => {
-    res.status(200).json({
-        status: "success",
-        data: {
-            product: "Product updated successfully ..."
-        },
-    })
+exports.updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await ProductModel.findByIdAndUpdate(id, req.body, {
+            new: true,
+            runValidators: true
+        });
+
+        res.status(200).json({
+            status: "success",
+            product
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: "error",
+            message: error.message,
+        })
+    }
 }
 
-exports.deleteProduct = (req, res) => {
-    res.status(204).json({
-        status: "success",
-        data: null,
-    })
+exports.deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params
+        const product = await ProductModel.findByIdAndDelete(id);
+        res.status(204).json({
+            status: "success",
+            product
+        })
+    } catch (error) {
+        res.status(500).json({
+            status: "error",
+            message: error.message,
+        })
+    }
 }
