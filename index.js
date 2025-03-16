@@ -6,6 +6,7 @@ const morgan = require("morgan");
 
 const userRouter = require("./routes/usersRoutes");
 const productRouter = require("./routes/productsRoutes");
+const tourRouter = require("./routes/touresRouets");
 const DBConnection = require("./DBConnection");
 
 const app = express();
@@ -45,6 +46,6 @@ DBConnection();
 // creating the middleware for the Routes
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', userRouter)
-
+app.use('/api/v1/tours', tourRouter)
 
 module.exports = app;
