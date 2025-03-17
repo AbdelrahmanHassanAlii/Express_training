@@ -4,21 +4,33 @@ const TourModel = require("../models/tourModel");
 // products routes Controller
 exports.getTours = async (req, res) => {
     try {
-        // prepare the query 
-        const queryObject = { ...req.query };
+        // prepare the query (Basic Filtering)
+        let queryObject = { ...req.query };
         const excludeFields = ['page', 'sort', 'limit', 'fields'];
         excludeFields.forEach((field) => delete queryObject[field]);
+
+        // convert the query to mongoose query (Advanced Filtering)
+        let queryString = JSON.stringify(queryObject);
+        queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`)
+        queryObject = JSON.parse(queryString);
+
+        // sort the query
+        // if (req.query.sort) {
+        //     queryObject.sort = req.query.sort;
+        // }
+
+        // prepare the query
         const query = TourModel.find(queryObject);
 
         // await the query
-        const Tours = await query;
+        const tours = await query;
 
         // return the response
         res.status(200).json({
             status: "success",
             requestedAt: req.requestTime,
-            total: Tours.length,
-            Tours,
+            total: tours.length,
+            tours,
         })
     } catch (error) {
         res.status(500).json({
