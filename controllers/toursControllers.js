@@ -23,7 +23,7 @@ exports.getTours = async (req, res) => {
             query = query.sort(sortBy);
         }
         // default sort by createdAt (desc)
-        else{
+        else {
             query = query.sort('-createdAt');
         }
 
@@ -33,8 +33,19 @@ exports.getTours = async (req, res) => {
             query = query.select(fields);
         }
         // default field limiting (exclude createdAt, updatedAt, __v)
-        else{
+        else {
             query = query.select('-createdAt -updatedAt -__v');
+        }
+
+        // 4A) Pagination
+        const page = parseInt(req.query.page, 10);
+        const limit = parseInt(req.query.limit, 10);
+        const skip = (page - 1) * limit;
+        query = query.skip(skip).limit(limit);
+        // 4B) handle go out of the limit
+        if (req.query.page && req.query.limit) {
+            const tourCount = await TourModel.countDocuments(queryObject);
+            if( skip >= tourCount ) throw new Error('This page does not exist');
         }
 
         // await the query
