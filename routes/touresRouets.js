@@ -6,6 +6,11 @@ const router = express.Router();
 
 // router.param(`id`, productsController.checkId)
 
+// custom routes
+router
+    .route('/get-2-cheap')
+    .get(touresController.get2Cheapest, touresController.getTours)
+
 // product routes
 router
     .route('/')

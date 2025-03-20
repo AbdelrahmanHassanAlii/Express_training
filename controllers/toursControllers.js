@@ -1,6 +1,14 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 const TourModel = require("../models/tourModel");
 
+// custom routes
+exports.get2Cheapest = async (req, res, next) => {
+    req.query.limit = 2;
+    req.query.page = 1;
+    req.query.sort = '-raitingAverage price';
+    req.query.fields = 'name price duration';
+    next();
+}
 // products routes Controller
 exports.getTours = async (req, res) => {
     try {
