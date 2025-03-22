@@ -1,5 +1,6 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 const TourModel = require("../models/tourModel");
+const ApiFeatures = require("../utils/apiFeatures");
 
 // custom routes
 exports.get2Cheapest = async (req, res, next) => {
@@ -12,52 +13,15 @@ exports.get2Cheapest = async (req, res, next) => {
 // products routes Controller
 exports.getTours = async (req, res) => {
     try {
-        // 1A) prepare the query (Basic Filtering)
-        let queryObject = { ...req.query };
-        const excludeFields = ['page', 'sort', 'limit', 'fields'];
-        excludeFields.forEach((field) => delete queryObject[field]);
 
-        // 1B) convert the query to mongoose query (Advanced Filtering)
-        let queryString = JSON.stringify(queryObject);
-        queryString = queryString.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`)
-        queryObject = JSON.parse(queryString);
-
-        // prepare the query
-        let query = TourModel.find(queryObject);
-
-        // 2) sort the query
-        if (req.query.sort) {
-            const sortBy = req.query.sort.split(',').join(' ');
-            query = query.sort(sortBy);
-        }
-        // default sort by createdAt (desc)
-        else {
-            query = query.sort('-createdAt');
-        }
-
-        // 3) Field Limiting
-        if (req.query.fields) {
-            const fields = req.query.fields.split(',').join(' ');
-            query = query.select(fields);
-        }
-        // default field limiting (exclude createdAt, updatedAt, __v)
-        else {
-            query = query.select('-createdAt -updatedAt -__v');
-        }
-
-        // 4A) Pagination
-        const page = parseInt(req.query.page, 10);
-        const limit = parseInt(req.query.limit, 10);
-        const skip = (page - 1) * limit;
-        query = query.skip(skip).limit(limit);
-        // 4B) handle go out of the limit
-        if (req.query.page && req.query.limit) {
-            const tourCount = await TourModel.countDocuments(queryObject);
-            if( skip >= tourCount ) throw new Error('This page does not exist');
-        }
+        const apiFeatures = new ApiFeatures(TourModel.find(), req.query)
+            .filter()
+            .sort()
+            .limitFields()
+            .paginate();
 
         // await the query
-        const tours = await query;
+        const tours = await apiFeatures.query;
 
         // return the response
         res.status(200).json({
