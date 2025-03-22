@@ -15,6 +15,10 @@ router
     .route('/stats')
     .get(touresController.tourStats)
 
+router
+    .route('/monthly-plan/:year')
+    .get(touresController.getMonthlyPlans)
+
 // product routes
 router
     .route('/')
