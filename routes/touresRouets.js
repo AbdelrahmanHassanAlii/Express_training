@@ -11,6 +11,10 @@ router
     .route('/get-2-cheap')
     .get(touresController.get2Cheapest, touresController.getTours)
 
+router
+    .route('/stats')
+    .get(touresController.tourStats)
+
 // product routes
 router
     .route('/')
