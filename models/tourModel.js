@@ -58,8 +58,18 @@ const tourSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
+tourSchema.virtual('durationWeeks').get(function () {
+    return this.duration / 7;
+})
+
+tourSchema.virtual('netPrice').get(function () {
+    return this.price - this.priceDiscount;
+})
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
