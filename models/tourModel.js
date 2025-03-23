@@ -9,7 +9,13 @@ const tourSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add a name of tour'],
         unique: true,
-        trim: true
+        trim: true,
+        validate: {
+            validator: function (val) {
+                return !/\d/.test(val);
+            },
+            message: 'Tour name must contain only letters'
+        }
     },
     slug: String,
     price: {
@@ -18,7 +24,14 @@ const tourSchema = new mongoose.Schema({
     },
     priceDiscount: {
         type: Number,
-        default: 0
+        default: 0,
+        validate: {
+            validator: function (val) {
+                // this keyword only works on .create() or .save() not on .updateOne()
+                return val <= this.price;
+            },
+            message: 'Price discount ({VALUE}) must be less than the price ({this.price})'
+        }
     },
     summary: {
         type: String,
