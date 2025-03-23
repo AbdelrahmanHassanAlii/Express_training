@@ -59,6 +59,10 @@ const tourSchema = new mongoose.Schema({
     },
     images: [String],
     startDates: [Date],
+    secretTour: {
+        type: Boolean,
+        default: false
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -102,6 +106,23 @@ tourSchema.post('save', function (doc, next) {
     console.log(`Tour ${doc.name} saved successfully 😍`);
     next();
 })
+
+// Query middleware
+
+// this find middleware will run before all the find operation like .find() or .findById() etc...
+tourSchema.pre(/^find/, function (next) {
+    // this.find({ secretTour: { $ne: true } });
+    this.startingTime = Date.now();
+    this.find({ secretTour: false });
+    next();
+})
+
+// this find middleware will run after all the find operation like .find() or .findById() etc...
+tourSchema.post(/^find/, function (docs, next) {
+    console.log(`Query took ${Date.now() - this.startingTime} ms`);
+    next();
+})
+
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
