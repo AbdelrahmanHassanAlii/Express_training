@@ -1,4 +1,8 @@
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable no-console */
+/* eslint-disable import/no-extraneous-dependencies */
 const { mongoose } = require("mongoose");
+const slugify = require('slugify');
 
 const tourSchema = new mongoose.Schema({
     name: {
@@ -7,6 +11,7 @@ const tourSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    slug: String,
     price: {
         type: Number,
         required: [true, 'Please add a price of tour']
@@ -63,12 +68,39 @@ const tourSchema = new mongoose.Schema({
     toObject: { virtuals: true }
 });
 
+// virtual properties
 tourSchema.virtual('durationWeeks').get(function () {
     return this.duration / 7;
 })
 
 tourSchema.virtual('netPrice').get(function () {
     return this.price - this.priceDiscount;
+})
+
+// Document middleware
+
+// this save middleware will run before the save operation like .save() or .create() but not .insertMany()
+tourSchema.pre('save', function (next) {
+    this.slug = slugify(this.name, { lower: true });
+    next();
+})
+
+// tourSchema.pre('save', async function (next) {
+//     const tour = await TourModel.findOne({ name: this.name });
+//     if (tour) {
+//         next(new AppError('Tour name already exists', 400));
+//     }
+//     next();
+// })
+
+// tourSchema.post('save', function (doc, next) {
+//     console.log(doc);
+//     next();
+// })
+
+tourSchema.post('save', function (doc, next) {
+    console.log(`Tour ${doc.name} saved successfully 😍`);
+    next();
 })
 const Tour = mongoose.model('Tour', tourSchema);
 
