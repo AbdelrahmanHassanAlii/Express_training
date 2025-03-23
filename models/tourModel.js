@@ -123,6 +123,15 @@ tourSchema.post(/^find/, function (docs, next) {
     next();
 })
 
+// Aggregation middleware
+
+// this aggregate middleware will run before all the aggregate operation like .aggregate()
+tourSchema.pre('aggregate', function (next) {
+    this.pipeline().unshift({ $match: { secretTour: false } });
+    next();
+})
+
+
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
