@@ -36,10 +36,29 @@ app.use('/api/v1/tours', tourRouter)
 
 // handle unknown routes
 app.all('*', (req, res, next) => {
-    res.status(404).json({
-        status: 'fail',
-        message: `Can't find ${req.originalUrl} on this server!`
+    // using the res 
+    // res.status(404).json({
+    //     status: 'fail',
+    //     message: `Can't find ${req.originalUrl} on this server!`
+    // })
+
+    // using the custom error middleware
+    const err = new Error(`Can't find ${req.originalUrl} on this server!`);
+    err.statusCode = 404;
+    err.status = 'fail';
+    next(err);
+});
+
+app.use((err, req, res, next)=>{
+    err.statusCode = err.statusCode || 500;
+    err.status = err.status || "error";
+    err.message = err.message || "Something went wrong";
+
+    res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message
     })
+
     next();
 });
 
