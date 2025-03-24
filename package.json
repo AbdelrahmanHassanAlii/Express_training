@@ -6,6 +6,7 @@
   "scripts": {
     "start:dev": "nodemon server.js",
     "start:prod": "cross-env NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js",
     "import_data": "node data/import-dev-data.js --import",
     "delete_data": "node data/import-dev-data.js --delete"
   },
