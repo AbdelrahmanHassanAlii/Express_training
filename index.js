@@ -8,6 +8,8 @@ const userRouter = require("./routes/usersRoutes");
 const productRouter = require("./routes/productsRoutes");
 const tourRouter = require("./routes/touresRouets");
 const DBConnection = require("./DBConnection");
+const AppError = require("./utils/appError");
+const { errorHandler } = require("./controllers/errorController");
 
 const app = express();
 
@@ -43,23 +45,14 @@ app.all('*', (req, res, next) => {
     // })
 
     // using the custom error middleware
-    const err = new Error(`Can't find ${req.originalUrl} on this server!`);
-    err.statusCode = 404;
-    err.status = 'fail';
-    next(err);
+    // const err = new Error(`Can't find ${req.originalUrl} on this server!`);
+    // err.statusCode = 404;
+    // err.status = 'fail';
+    // next(err);
+
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-app.use((err, req, res, next)=>{
-    err.statusCode = err.statusCode || 500;
-    err.status = err.status || "error";
-    err.message = err.message || "Something went wrong";
-
-    res.status(err.statusCode).json({
-        status: err.status,
-        message: err.message
-    })
-
-    next();
-});
+app.use(errorHandler);
 
 module.exports = app;
