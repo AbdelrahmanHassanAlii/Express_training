@@ -23,29 +23,24 @@ app.use((req, res, next) => {
     next();
 })
 
-// middleware to log the request
+// middleware to log the request if we in development mode 
 if (process.env.NODE_ENV === 'development') app.use(morgan("dev"))
 
 // connect to MongoDB
 DBConnection();
 
-
-
-// const testProduct = new Product({
-//     name: 'Test Product52',
-//     price: 100,
-//     description: 'This is a test product'
-// });
-
-// testProduct.save().then((product) => {
-//     console.log('Test product saved', product);
-// }).catch((error) => {
-//     console.error('Error saving test product:', error);
-// }); 
-
 // creating the middleware for the Routes
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/tours', tourRouter)
+
+// handle unknown routes
+app.all('*', (req, res, next) => {
+    res.status(404).json({
+        status: 'fail',
+        message: `Can't find ${req.originalUrl} on this server!`
+    })
+    next();
+});
 
 module.exports = app;
