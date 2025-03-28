@@ -1,6 +1,7 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 const TourModel = require("../models/tourModel");
 const ApiFeatures = require("../utils/apiFeatures");
+const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 
 // custom routes
@@ -33,7 +34,10 @@ exports.getTours = catchAsync(async (req, res, next) => {
 
 exports.getTour = catchAsync(async (req, res, next) => {
     const tour = await TourModel.findById(req.params.id);
-        res.status(200).json({
+    if (!tour) {
+        return next(new AppError('No tour found with that ID', 404));
+    }
+    res.status(200).json({
         status: "success",
         tour
     });
@@ -53,7 +57,9 @@ exports.updateTour = catchAsync(async (req, res, next) => {
         new: true,
         runValidators: true
     });
-
+    if (!tour) {
+        return next(new AppError('No tour found with that ID', 404));
+    }
     res.status(200).json({
         status: "success",
         tour
@@ -63,6 +69,9 @@ exports.updateTour = catchAsync(async (req, res, next) => {
 exports.deleteTour = catchAsync(async (req, res, next) => {
     const { id } = req.params
     const tour = await TourModel.findByIdAndDelete(id);
+    if (!tour) {
+        return next(new AppError('No tour found with that ID', 404));
+    }
     res.status(204).json({
         status: "success",
         tour
