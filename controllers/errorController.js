@@ -7,6 +7,12 @@ const handleCastError = (err) => {
     return new AppError(message, 400)
 }
 
+const handleDuplicateKeyError = (err) => {
+    const value = err.errmsg.match(/"(.*?)"/)[1]
+    const message = `Duplicate field value: ${value}`
+    return new AppError(message, 400)
+}
+
 const errorDev = (err, res) => {
     res.status(err.statusCode).json({
         status: err.status,
@@ -42,6 +48,9 @@ exports.errorHandler = (err, req, res, next) => {
         let error = { ...err }
         if (err.name === "CastError") {
             error = handleCastError(error)
+        }
+        if (err.code === 11000) {
+            error = handleDuplicateKeyError(error)
         }
         errorProd(error, res)
     }
