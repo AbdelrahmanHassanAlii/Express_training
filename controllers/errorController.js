@@ -1,4 +1,12 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
+const AppError = require("../utils/appError")
+
 /* eslint-disable no-console */
+const handleCastError = (err) => {
+    const message = `Invalid ${err.path}: ${err.value}`
+    return new AppError(message, 400)
+}
+
 const errorDev = (err, res) => {
     res.status(err.statusCode).json({
         status: err.status,
@@ -31,7 +39,11 @@ exports.errorHandler = (err, req, res, next) => {
     if (process.env.NODE_ENV === 'development') {
         errorDev(err, res)
     } else if (process.env.NODE_ENV === 'production') {
-        errorProd(err, res)
+        let error = { ...err }
+        if (err.name === "CastError") {
+            error = handleCastError(error)
+        }
+        errorProd(error, res)
     }
 
     next();
