@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/order */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable prettier/prettier */
@@ -55,4 +56,8 @@ app.all('*', (req, res, next) => {
 
 app.use(errorHandler);
 
+process.on('unhandledRejection', (err) => {
+    console.log(err.name, err.message);
+    process.exit(1);
+})
 module.exports = app;
