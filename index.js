@@ -12,6 +12,20 @@ const DBConnection = require("./DBConnection");
 const AppError = require("./utils/appError");
 const { errorHandler } = require("./controllers/errorController");
 
+// handle unhandled rejections
+process.on('unhandledRejection', (err) => {
+    console.log('UNHANDLED REJECTION 💥');
+    console.error(err.name, err.message);
+    process.exit(1);
+})
+
+// handle unhandled exceptions
+process.on('uncaughtException', (err) => {
+    console.log('UNCAUGHT EXCEPTION 💥');
+    console.error(err.name, err.message);
+    process.exit(1);
+})
+
 const app = express();
 
 // Middleware to parse JSON body
@@ -56,8 +70,4 @@ app.all('*', (req, res, next) => {
 
 app.use(errorHandler);
 
-process.on('unhandledRejection', (err) => {
-    console.log(err.name, err.message);
-    process.exit(1);
-})
 module.exports = app;
