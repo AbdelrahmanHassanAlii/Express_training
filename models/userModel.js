@@ -19,6 +19,17 @@ const userSchema = new mongoose.Schema({
         minlength: 8,
         select: false
     },
+    passwordConfirm: {
+        type: String,
+        required: [true, 'Please confirm your password'],
+        select: false,
+        validate: {
+            validator: function (v) {
+                return this.password === v;
+            },
+            message: 'Passwords do not match'
+        }
+    },
     role: {
         type: String,
         enum: ['user', 'admin', 'guide'],
