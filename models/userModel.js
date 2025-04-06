@@ -1,4 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const { mongoose } = require("mongoose");
+const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -47,6 +49,21 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
+});
+
+// userSchema.pre(/^find/, function (next) {
+//     this.find({ active: true });
+//     next();
+// })
+
+userSchema.pre('save', async function(next) {
+    // Only hash if password was modified
+    if (!this.isModified('password')) return next();
+    // Hash password with cost factor of 12
+    this.password = await bcrypt.hash(this.password, 12);
+    // Delete passwordConfirm field
+    this.passwordConfirm = undefined;
+    next();
 });
 
 const User = mongoose.model('User', userSchema);
