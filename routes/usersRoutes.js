@@ -1,6 +1,8 @@
 const express = require("express");
 const usersController = require("../controllers/usersControllers");
 const authController = require("../controllers/authController");
+// const rateLimit = require('express-rate-limit');
+
 
 // creating the Routes from express 
 const router = express.Router();
@@ -9,6 +11,13 @@ router.param(`id`, (req, res, next, val) => {
     console.log(`the id is ${val}`);
     next();
 })
+
+// auth limiter 
+// const authLimiter = rateLimit({
+//     windowMs: 15 * 60 * 1000, // 15 minutes
+//     max: 10, // Limit each IP to 10 requests per window
+//     message: 'Too many login attempts, please try again later'
+// });
 
 // user routes
 router
@@ -30,6 +39,6 @@ router
 
 // router
 //     .route('/login')
-//     .post(usersController.logIn)
+//     .post(authLimiter, usersController.logIn)
 
 module.exports = router;
