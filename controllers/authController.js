@@ -9,7 +9,12 @@ exports.signUp = catchAsync(async (req, res, next) => {
     if (error) {
         return next(new AppError(error.details[0].message, 400));
     }   
-    const user = await User.create(value);
+    const user = await User.create({
+        name: value.name,
+        email: value.email,
+        password: value.password,
+        passwordConfirm: value.passwordConfirm
+    });
     res.status(201).json({
         status: "success",
         user
