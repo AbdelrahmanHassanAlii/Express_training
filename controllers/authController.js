@@ -1,4 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
+const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 const User = require("../models/userModel")
 const AppError = require("../utils/appError")
 const { catchAsync } = require("../utils/catchAsync")
@@ -29,7 +31,7 @@ exports.signUp = catchAsync(async (req, res, next) => {
         token,
         user,
     })
-}) 
+})
 
 exports.logIn = catchAsync(async (req, res, next) => {
     // validate the input
@@ -39,7 +41,7 @@ exports.logIn = catchAsync(async (req, res, next) => {
     }
     // check if user exists and password is correct
     const user = await User.findOne({ email }).select('+password');
-    if(!user || !(await user.comparePassword(password, user.password))){
+    if (!user || !(await user.comparePassword(password, user.password))) {
         return next(new AppError('Invalid credentials', 401));
     }
     // remove password from the user
@@ -52,4 +54,41 @@ exports.logIn = catchAsync(async (req, res, next) => {
         token,
         user,
     })
+})
+
+exports.protect = catchAsync(async (req, res, next) => {
+    // 1) Check if token exists
+    let token;
+    if (
+        req.headers.authorization &&
+        req.headers.authorization.startsWith('Bearer')
+    ) {
+        token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookies && req.cookies.jwt) {
+        token = req.cookies.jwt;
+    }
+    if (!token) {
+        return next(
+            new AppError('You are not logged in! Please log in to get access.', 401)
+        );
+    }
+
+    // 2) Verification token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+    // 3) Check if user still exists
+    const { id } = decoded;
+    const user = await User.findById(id);
+    if (!user) {
+        return next(new AppError('The user belongs to this token does no longer exist.', 401));
+    }
+
+    // 4) Check if user changed password after the token was issued
+    if (user.passwordChangedAfterToken(decoded.iat)) {
+        return next(new AppError('User recently changed password! Please log in again.', 401));
+    }
+    // 5) Grant access to protected route
+    req.user = user;
+    // res.locals.user = user;
+    next();
 })
