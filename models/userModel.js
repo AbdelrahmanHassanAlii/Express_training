@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
+    passwordChangedAt: {
+        type: Date,
+        default: null
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -69,6 +73,25 @@ userSchema.pre('save', async function(next) {
 userSchema.methods.comparePassword = async function (candidatePassword, userPassword) {
     return await bcrypt.compare(candidatePassword, userPassword);
 }
+
+// ✅ Fix: Set passwordChangedAt only if password was updated (and not on new user creation)
+userSchema.pre('save', function (next) {
+    if (!this.isModified('password') || this.isNew) return next();
+
+    this.passwordChangedAt = Date.now() - 1000; // Subtract 1 second
+    next();
+});
+
+// 🔐 Check if user changed password after token was issued
+userSchema.methods.passwordChangedAfterToken = function (JWTTimestamp) {
+    if (this.passwordChangedAt) {
+        const changedTimestamp = parseInt(this.passwordChangedAt.getTime() / 1000, 10);
+        return JWTTimestamp < changedTimestamp;
+    }
+
+    // False means password NOT changed after token
+    return false;
+};
 
 const User = mongoose.model('User', userSchema);
 
