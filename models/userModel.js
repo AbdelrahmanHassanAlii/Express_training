@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const { mongoose } = require("mongoose");
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -49,6 +50,8 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
     createdAt: {
         type: Date,
         default: Date.now
@@ -60,7 +63,7 @@ const userSchema = new mongoose.Schema({
 //     next();
 // })
 
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function (next) {
     // Only hash if password was modified
     if (!this.isModified('password')) return next();
     // Hash password with cost factor of 12
@@ -91,6 +94,18 @@ userSchema.methods.passwordChangedAfterToken = function (JWTTimestamp) {
 
     // False means password NOT changed after token
     return false;
+};
+
+userSchema.methods.createPasswordResetToken = function () {
+    // Generate a random 32-byte token
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    // Create a SHA256 hash of the token and set 
+    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+    console.log(resetToken, this.passwordResetToken);
+    // Set the token expiration time
+    this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
+    return resetToken;
 };
 
 const User = mongoose.model('User', userSchema);
