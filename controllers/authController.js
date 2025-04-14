@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable import/no-extraneous-dependencies */
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
@@ -6,6 +7,7 @@ const AppError = require("../utils/appError")
 const { catchAsync } = require("../utils/catchAsync")
 const { createUserSchema } = require("../validators/userValidator");
 const generateSignToken = require("../utils/signToken");
+const sendEmail = require('../utils/email');
 
 
 exports.signUp = catchAsync(async (req, res, next) => {
@@ -100,3 +102,41 @@ exports.restricTo = (...roles) =>
         }
         next();
     }
+
+exports.forgotPassword = catchAsync(async (req, res, next) => {
+    // 1 ) geeting the user based on email
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) {
+        return next(new AppError('User not found', 404));
+    }
+
+    // 2) Generate the random reset token
+    const resetToken = user.createPasswordResetToken();
+    await user.save({ validateBeforeSave: false });
+
+    // 3) sent the randon token via email
+    const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
+    const message = `Forgot your password? Submit a PATCH request with your password and passwordConfirm to: ${resetURL}\r\n\r\n`;
+    try{
+        await sendEmail({
+            to: user.email,
+            subject: 'Your password reset token (valid for 10 min)',
+            message,
+        });
+        
+        res.status(200).json({
+            status: 'success',
+            message: 'Token sent to email!🚀'
+        });
+    }catch(error){
+        console.error(error);
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
+        await user.save({ validateBeforeSave: false });
+        return next(new AppError('Failed to send reset password email', 500));
+    }
+})  
+
+exports.resetPassword = catchAsync(async (req, res, next) => {
+    
+})
