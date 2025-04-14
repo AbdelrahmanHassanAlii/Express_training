@@ -42,4 +42,12 @@ router
     .post(authController.logIn)
 //     .post(authLimiter, usersController.logIn)
 
+router
+    .route('/forgotPassword')
+    .post(authController.forgotPassword)
+
+router
+    .route('/resetPassword/:token')
+    .post(authController.resetPassword)
+
 module.exports = router;
