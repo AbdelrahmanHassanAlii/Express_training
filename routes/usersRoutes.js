@@ -48,6 +48,6 @@ router
 
 router
     .route('/resetPassword/:token')
-    .post(authController.resetPassword)
+    .patch(authController.resetPassword)
 
 module.exports = router;
