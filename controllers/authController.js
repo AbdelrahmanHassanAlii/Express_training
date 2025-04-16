@@ -8,6 +8,7 @@ const { catchAsync } = require("../utils/catchAsync")
 const { createUserSchema } = require("../validators/userValidator");
 const generateSignToken = require("../utils/signToken");
 const sendEmail = require('../utils/email');
+const crypto = require('crypto');
 
 
 exports.signUp = catchAsync(async (req, res, next) => {
@@ -138,5 +139,31 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 })  
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
-    
+    // 1 ) get user based on the token
+    const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+    const user = await User.findOne({ passwordResetToken: hashedToken, passwordResetExpires: { $gt: Date.now() } });
+    // 2) check if token is still valid
+    if (!user) {
+        return next(new AppError('Token is invalid or has expired', 400));
+    }
+
+    // 3) update the password and the fields
+    user.password = req.body.password;
+    user.passwordConfirm = req.body.passwordConfirm;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    // 4) update the passwordChangedAt property
+    // this is done automatically by the model of the user
+
+    // 5) generate the token
+    const token = generateSignToken(user._id);
+
+    // 6) send the response
+    res.status(200).json({
+        status: 'success',
+        token,
+        user
+    })
 })
