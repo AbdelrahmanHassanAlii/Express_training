@@ -28,7 +28,7 @@ router
 router
     .route('/:id')
     .get(usersController.getUser)
-    .patch(usersController.updateUser)
+    // .patch(usersController.updateUser)
     .delete(usersController.deleteUser)
 
 
@@ -49,5 +49,9 @@ router
 router
     .route('/resetPassword/:token')
     .patch(authController.resetPassword)
+
+router
+    .route('/updatePassword')
+    .patch(authController.protect, authController.updatePassword)
 
 module.exports = router;
