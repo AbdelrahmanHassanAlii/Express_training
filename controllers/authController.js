@@ -5,7 +5,7 @@ const { promisify } = require('util');
 const User = require("../models/userModel")
 const AppError = require("../utils/appError")
 const { catchAsync } = require("../utils/catchAsync")
-const { createUserSchema } = require("../validators/userValidator");
+const { createUserSchema, updatePasswordSchema } = require("../validators/userValidator");
 const generateSignToken = require("../utils/signToken");
 const sendEmail = require('../utils/email');
 const crypto = require('crypto');
@@ -161,6 +161,33 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     const token = generateSignToken(user._id);
 
     // 6) send the response
+    res.status(200).json({
+        status: 'success',
+        token,
+        user
+    })
+})
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+    // 1) Validate the input
+    const { error, value } = updatePasswordSchema.validate(req.body);
+    if (error) {
+        return next(new AppError(error.details[0].message, 400));
+    }
+    // 2) Get user from collection
+    const user = await User.findById(req.user._id).select('+password');
+    console.log("current user",user);
+    // 3) Check if POSTed current password is correct
+    if (!(await user.comparePassword(value.currentPassword, user.password))) {
+        return next(new AppError('Your current password is wrong', 401));
+    }
+    // 4) If so, update password
+    user.password = value.newPassword;
+    user.passwordConfirm = value.newPasswordConfirm;
+    await user.save();
+    
+    // 5) Log user in, send JWT
+    const token = generateSignToken(user._id);
     res.status(200).json({
         status: 'success',
         token,
