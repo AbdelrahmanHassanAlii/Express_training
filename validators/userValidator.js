@@ -82,7 +82,38 @@ const updateUserSchema = Joi.object({
     active: Joi.boolean()
 }).min(1);
 
+const updatePasswordSchema = Joi.object({
+    currentPassword: Joi.string()
+        .required()
+        .min(8)
+        .custom(passwordComplexity, 'Old Password strength validation')
+        .messages({
+            'string.empty': 'Old Password is required',
+            'string.min': 'Old Password should have at least {#limit} characters',
+            'password.complexity': 'Old Password is too weak. Include uppercase, numbers, and special characters'
+        }),
+
+    newPassword: Joi.string()
+        .required()
+        .min(8)
+        .custom(passwordComplexity, 'New Password strength validation')
+        .messages({
+            'string.empty': 'New Password is required',
+            'string.min': 'New Password should have at least {#limit} characters',
+            'password.complexity': 'New Password is too weak. Include uppercase, numbers, and special characters'
+        }),
+
+    newPasswordConfirm: Joi.string()
+        .required()
+        .valid(Joi.ref('newPassword'))
+        .messages({
+            'any.only': 'Passwords do not match',
+            'string.empty': 'Please confirm your password'
+        })
+})
+
 module.exports = {
     createUserSchema,
-    updateUserSchema
+    updateUserSchema,
+    updatePasswordSchema
 };
