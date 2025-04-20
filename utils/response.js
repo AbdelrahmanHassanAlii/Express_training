@@ -1,12 +1,19 @@
 const generateSignToken = require("./signToken");
 
-exports.sendResponse = (res, status, message, data) => {
-    res.status(status).json({
+exports.sendResponse = (res, status, message, data, count) => {
+    const response = {
         status: status === 200 ? 'success' : 'error',
         message,
         data
-    })
-}
+    };
+
+    if (count !== undefined) {
+        response.count = count;
+    }
+
+    res.status(status).json(response);
+};
+
 
 exports.createSendToken = (user, statusCode, res) => {
     const token = generateSignToken(user._id);
