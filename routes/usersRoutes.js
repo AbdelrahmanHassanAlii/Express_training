@@ -2,7 +2,7 @@ const express = require("express");
 const usersController = require("../controllers/usersControllers");
 const authController = require("../controllers/authController");
 const validateRequest = require("../middlewares/validateRequest");
-const { createUserSchema } = require("../validators/userValidator");
+const { createUserSchema, loginUserSchema } = require("../validators/userValidator");
 // const rateLimit = require('express-rate-limit');
 
 
@@ -24,7 +24,7 @@ router.param(`id`, (req, res, next, val) => {
 // user routes
 router
     .route('/')
-    .get(usersController.getAllUsers)
+    .get(authController.protect,authController.restricTo('admin'), usersController.getAllUsers)
     .post(usersController.createUser)
 
 router
@@ -41,7 +41,7 @@ router
 
 router
     .route('/login')
-    .post(authController.logIn)
+    .post(validateRequest(loginUserSchema), authController.logIn)
 //     .post(authLimiter, usersController.logIn)
 
 router
