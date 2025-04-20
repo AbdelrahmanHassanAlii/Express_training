@@ -2,13 +2,13 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
+const crypto = require('crypto');
 const User = require("../models/userModel")
 const AppError = require("../utils/appError")
 const { catchAsync } = require("../utils/catchAsync")
 const { createUserSchema, updatePasswordSchema } = require("../validators/userValidator");
-const generateSignToken = require("../utils/signToken");
 const sendEmail = require('../utils/email');
-const crypto = require('crypto');
+const { createSendToken, sendResponse } = require('../utils/response');
 
 
 exports.signUp = catchAsync(async (req, res, next) => {
@@ -26,14 +26,8 @@ exports.signUp = catchAsync(async (req, res, next) => {
     });
     // remove password from the user
     user.password = undefined;
-    // generate token
-    const token = generateSignToken(user._id);
-    // return response
-    res.status(201).json({
-        status: "success",
-        token,
-        user,
-    })
+    // generate token and return response
+    createSendToken(user, 201, res);
 })
 
 exports.logIn = catchAsync(async (req, res, next) => {
@@ -49,14 +43,8 @@ exports.logIn = catchAsync(async (req, res, next) => {
     }
     // remove password from the user
     user.password = undefined;
-    // generate token
-    const token = generateSignToken(user._id);
-    // return response
-    res.status(200).json({
-        status: "success",
-        token,
-        user,
-    })
+    // generate token and return response
+    createSendToken(user, 200, res);
 })
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -115,7 +103,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
     const resetToken = user.createPasswordResetToken();
     await user.save({ validateBeforeSave: false });
 
-    // 3) sent the randon token via email
+    // 3) sent the random token via email
     const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
     const message = `Forgot your password? Submit a PATCH request with your password and passwordConfirm to: ${resetURL}\r\n\r\n`;
     try{
@@ -124,11 +112,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
             subject: 'Your password reset token (valid for 10 min)',
             message,
         });
-        
-        res.status(200).json({
-            status: 'success',
-            message: 'Token sent to email!🚀'
-        });
+        sendResponse(res, 200, 'Token sent to email!🚀', null);
     }catch(error){
         console.error(error);
         user.passwordResetToken = undefined;
@@ -157,15 +141,8 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     // 4) update the passwordChangedAt property
     // this is done automatically by the model of the user
 
-    // 5) generate the token
-    const token = generateSignToken(user._id);
-
-    // 6) send the response
-    res.status(200).json({
-        status: 'success',
-        token,
-        user
-    })
+    // 5) generate the token and send response
+    createSendToken(user, 200, res);
 })
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -187,10 +164,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
     await user.save();
     
     // 5) Log user in, send JWT
-    const token = generateSignToken(user._id);
-    res.status(200).json({
-        status: 'success',
-        token,
-        user
-    })
+    createSendToken(user, 200, res);
 })
