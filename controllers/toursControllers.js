@@ -3,6 +3,7 @@ const TourModel = require("../models/tourModel");
 const ApiFeatures = require("../utils/apiFeatures");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
+const { sendResponse } = require("../utils/response");
 
 // custom routes
 exports.get2Cheapest = async (req, res, next) => {
@@ -24,12 +25,7 @@ exports.getTours = catchAsync(async (req, res, next) => {
     const tours = await apiFeatures.query;
 
     // return the response
-    res.status(200).json({
-        status: "success",
-        requestedAt: req.requestTime,
-        total: tours.length,
-        tours,
-    })
+    sendResponse(res, 200, 'All tours', tours, { total: tours.length, requestedAt: req.requestTime });
 })
 
 exports.getTour = catchAsync(async (req, res, next) => {
@@ -37,18 +33,12 @@ exports.getTour = catchAsync(async (req, res, next) => {
     if (!tour) {
         return next(new AppError('No tour found with that ID', 404));
     }
-    res.status(200).json({
-        status: "success",
-        tour
-    });
+    sendResponse(res, 200, 'Tour details', tour);
 })
 
 exports.createTour = catchAsync(async (req, res, next) => {
     const newTour = await TourModel.create(req.body);
-    res.status(201).json({
-        status: "success",
-        product: newTour,
-    });
+    sendResponse(res, 201, 'Tour created', newTour);
 })
 
 exports.updateTour = catchAsync(async (req, res, next) => {
@@ -60,10 +50,7 @@ exports.updateTour = catchAsync(async (req, res, next) => {
     if (!tour) {
         return next(new AppError('No tour found with that ID', 404));
     }
-    res.status(200).json({
-        status: "success",
-        tour
-    })
+    sendResponse(res, 200, 'Tour updated', tour);
 })
 
 exports.deleteTour = catchAsync(async (req, res, next) => {
@@ -72,10 +59,7 @@ exports.deleteTour = catchAsync(async (req, res, next) => {
     if (!tour) {
         return next(new AppError('No tour found with that ID', 404));
     }
-    res.status(204).json({
-        status: "success",
-        tour
-    })
+    sendResponse(res, 204, 'Tour deleted', tour);
 })
 
 exports.tourStats = catchAsync(async (req, res, next) => {
@@ -97,11 +81,7 @@ exports.tourStats = catchAsync(async (req, res, next) => {
             $sort: { avgPrice: 1 }
         }
     ])
-    res.status(200).json({
-        status: "success",
-        requestedAt: req.requestTime,
-        stats
-    })
+    sendResponse(res, 200, 'Tour stats', stats, { total: stats.length, requestedAt: req.requestTime });
 })
 
 exports.getMonthlyPlans = catchAsync(async (req, res, next) => {
@@ -131,9 +111,5 @@ exports.getMonthlyPlans = catchAsync(async (req, res, next) => {
             $project: { _id: 0 }
         }
     ])
-    res.status(200).json({
-        status: "success",
-        requestedAt: req.requestTime,
-        plans
-    })
+    sendResponse(res, 200, 'Tour monthly plans', plans, { total: plans.length, requestedAt: req.requestTime });
 })
