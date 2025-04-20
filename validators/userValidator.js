@@ -36,7 +36,7 @@ const createUserSchema = Joi.object({
         .min(8)
         .custom(passwordComplexity, 'Password strength validation')
         .messages({
-            'string.empty': 'Password is required2',
+            'string.empty': 'Password is required',
             'string.min': 'Password should have at least {#limit} characters',
             'password.complexity': 'Password is too weak. Include uppercase, numbers, and special characters'
         }),
@@ -59,6 +59,29 @@ const createUserSchema = Joi.object({
     active: Joi.boolean()
         .default(true)
 });
+
+const loginUserSchema = Joi.object({
+    email: Joi.string()
+        .required()
+        .email()
+        .lowercase()
+        .messages({
+            'string.empty': 'Email is required',
+            'string.email': 'Please provide a valid email address'
+        })
+    ,
+    password: Joi.string()
+        .required()
+        .min(8)
+        .custom(passwordComplexity, 'Password strength validation')
+        .messages({
+            'string.empty': 'Password is required',
+            'string.min': 'Password should have at least {#limit} characters',
+            'password.complexity': 'Password is too weak. Include uppercase, numbers, and special characters'
+        })
+    
+})
+;
 
 const updateUserSchema = Joi.object({
     name: Joi.string()
@@ -114,6 +137,7 @@ const updatePasswordSchema = Joi.object({
 
 module.exports = {
     createUserSchema,
+    loginUserSchema,
     updateUserSchema,
     updatePasswordSchema
 };
