@@ -21,18 +21,13 @@ exports.signUp = catchAsync(async (req, res, next) => {
 });
 
 exports.logIn = catchAsync(async (req, res, next) => {
-    // validate the input
-    const { email, password } = req.body;
-    if (!email || !password) {
-        return next(new AppError('Please provide email and password', 400));
-    }
+    // get validated data from previous middleware
+    const { email, password } = req.validatedBody;
     // check if user exists and password is correct
     const user = await User.findOne({ email }).select('+password');
     if (!user || !(await user.comparePassword(password, user.password))) {
         return next(new AppError('Invalid credentials', 401));
     }
-    // remove password from the user
-    user.password = undefined;
     // generate token and return response
     createSendToken(user, 200, res);
 })
