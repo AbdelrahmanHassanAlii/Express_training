@@ -1,5 +1,6 @@
 /* eslint-disable node/no-unsupported-features/es-syntax */
 const AppError = require("../utils/appError")
+const { sendResponse } = require("../utils/response")
 
 /* eslint-disable no-console */
 const handleCastError = (err) => {
@@ -30,26 +31,29 @@ const handleJWTExpiredError = () => {
 }
 
 const errorDev = (err, res) => {
-    res.status(err.statusCode).json({
-        status: err.status,
-        message: err.message,
-        error: err,
-        stack: err.stack
-    })
+    // res.status(err.statusCode).json({
+    //     status: err.status,
+    //     message: err.message,
+    //     error: err,
+    //     stack: err.stack
+    // })
+    sendResponse(res, err.statusCode, err.message, null, { error: err, stack: err.stack });
 }
 
 const errorProd = (err, res) => {
     if (err.isOperational) {
-        res.status(err.statusCode).json({
-            status: err.status,
-            message: err.message
-        })
+        // res.status(err.statusCode).json({
+        //     status: err.status,
+        //     message: err.message
+        // })
+        sendResponse(res, err.statusCode, err.message);
     } else {
         console.error("ERROR IN PRODUCTION 💥", err)
-        res.status(500).json({
-            status: "error",
-            message: "Something went wrong"
-        })
+        // res.status(500).json({
+        //     status: "error",
+        //     message: "Something went wrong"
+        // })
+        sendResponse(res, 500, "Something went wrong");
     }
 }
 
@@ -62,6 +66,7 @@ exports.errorHandler = (err, req, res, next) => {
         errorDev(err, res)
     } else if (process.env.NODE_ENV === 'production') {
         let error = { ...err }
+        error.message = err.message;
         if (err.name === "CastError") {
             error = handleCastError(error)
         }
