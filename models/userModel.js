@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please confirm your password'],
         select: false,
+        // works only with create and save and not with update
         validate: {
             validator: function (v) {
                 return this.password === v;
@@ -63,6 +64,7 @@ const userSchema = new mongoose.Schema({
 //     next();
 // })
 
+// working only with create and save
 userSchema.pre('save', async function (next) {
     // Only hash if password was modified
     if (!this.isModified('password')) return next();
