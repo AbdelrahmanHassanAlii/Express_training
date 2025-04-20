@@ -5,7 +5,7 @@ const { sendResponse } = require("../utils/response");
 // user routes handlers
 exports.getAllUsers = catchAsync( async (req, res) => {
     const users = await User.find();
-    sendResponse(res, 200, 'All users', users, users.length);
+    sendResponse(res, 200, 'All users', users, { count: users.length});
 })
 
 exports.getUser = catchAsync( async (req, res) => {
