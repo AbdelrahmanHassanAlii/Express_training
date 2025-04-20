@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Abdelrahman Hassan",
+        "email": "abdelrahman@gmail.com",
+        "password": "Edara@123",
+        "role": "admin"
+    },
+    {
+        "name": "mohamed",
+        "email": "mohamed@gmail.com",
+        "password": "Edara@123",
+        "role": "user"
+    }
+]

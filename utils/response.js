@@ -1,19 +1,19 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 const generateSignToken = require("./signToken");
 
-exports.sendResponse = (res, status, message, data, count) => {
+exports.sendResponse = (res, statusCode, message, data = null, extras = {}) => {
     const response = {
-        status: status === 200 ? 'success' : 'error',
+        status: statusCode >= 200 && statusCode < 300 ? 'success' : 'error',
         message,
-        data
+        ...extras 
     };
 
-    if (count !== undefined) {
-        response.count = count;
+    if(data !== null) {
+        response.data = data;
     }
 
-    res.status(status).json(response);
+    res.status(statusCode).json(response);
 };
-
 
 exports.createSendToken = (user, statusCode, res) => {
     const token = generateSignToken(user._id);
