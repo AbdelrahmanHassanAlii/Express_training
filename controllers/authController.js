@@ -6,16 +6,16 @@ const crypto = require('crypto');
 const User = require("../models/userModel")
 const AppError = require("../utils/appError")
 const { catchAsync } = require("../utils/catchAsync")
-const { updatePasswordSchema } = require("../validators/userValidator");
 const sendEmail = require('../utils/email');
 const { createSendToken, sendResponse } = require('../utils/response');
+const filterObj = require('../utils/filterObj');
 
 
 exports.signUp = catchAsync(async (req, res, next) => {
     // get validated data from previous middleware
-    const { name, email, password, passwordConfirm } = req.validatedBody;
+    const filtereddObj = filterObj(req.validatedBody, 'name', 'email', 'password', 'passwordConfirm');
     // create user
-    const user = await User.create({ name, email, password, passwordConfirm });
+    const user = await User.create(filtereddObj);
     // generate token and return response
     createSendToken(user, 201, res);
 });
@@ -130,24 +130,18 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     createSendToken(user, 200, res);
 })
 
-exports.updatePassword = catchAsync(async (req, res, next) => {
-    // 1) Validate the input
-    const { error, value } = updatePasswordSchema.validate(req.body);
-    if (error) {
-        return next(new AppError(error.details[0].message, 400));
-    }
-    // 2) Get user from collection
+exports.updateMyPassword = catchAsync(async (req, res, next) => {
+    // 1) Get user from collection
     const user = await User.findById(req.user._id).select('+password');
-    console.log("current user",user);
-    // 3) Check if POSTed current password is correct
-    if (!(await user.comparePassword(value.currentPassword, user.password))) {
+    // 2) Check if POSTed current password is correct
+    if (!(await user.comparePassword(req.body.currentPassword, user.password))) {
         return next(new AppError('Your current password is wrong', 401));
     }
-    // 4) If so, update password
-    user.password = value.newPassword;
-    user.passwordConfirm = value.newPasswordConfirm;
+    // 3) If so, update password
+    user.password = req.body.newPassword;
+    user.passwordConfirm = req.body.newPasswordConfirm;
     await user.save();
     
-    // 5) Log user in, send JWT
+    // 4) Log user in, send JWT
     createSendToken(user, 200, res);
 })
