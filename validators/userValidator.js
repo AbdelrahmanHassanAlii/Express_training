@@ -83,7 +83,7 @@ const loginUserSchema = Joi.object({
 })
 ;
 
-const updateUserSchema = Joi.object({
+const updateMyProfileSchema = Joi.object({
     name: Joi.string()
         .min(2)
         .max(30),
@@ -92,13 +92,13 @@ const updateUserSchema = Joi.object({
         .email()
         .lowercase(),
 
-    password: Joi.string()
-        .min(8)
-        .custom(passwordComplexity, 'Password strength validation')
-        .messages({
-            'string.min': 'Password should have at least {#limit} characters',
-            'password.complexity': 'Password is too weak. Include uppercase, numbers, and special characters'
-        }),
+    password: Joi.forbidden().messages({
+        'any.unknown': 'You cannot update password from this route! if you want to update password please use /updateMyPassword'
+    }),
+
+    passwordConfirm: Joi.forbidden().messages({
+        'any.unknown': 'You cannot update password from this route! if you want to update password please use /updateMyPassword'
+    }),
 
     photo: Joi.string(),
 
@@ -138,6 +138,6 @@ const updatePasswordSchema = Joi.object({
 module.exports = {
     createUserSchema,
     loginUserSchema,
-    updateUserSchema,
+    updateMyProfileSchema,
     updatePasswordSchema
 };
