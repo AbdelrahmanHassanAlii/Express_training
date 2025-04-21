@@ -2,7 +2,7 @@ const express = require("express");
 const usersController = require("../controllers/usersControllers");
 const authController = require("../controllers/authController");
 const validateRequest = require("../middlewares/validateRequest");
-const { createUserSchema, loginUserSchema } = require("../validators/userValidator");
+const { createUserSchema, loginUserSchema, updatePasswordSchema, updateMyProfileSchema } = require("../validators/userValidator");
 // const rateLimit = require('express-rate-limit');
 
 
@@ -20,19 +20,6 @@ router.param(`id`, (req, res, next, val) => {
 //     max: 10, // Limit each IP to 10 requests per window
 //     message: 'Too many login attempts, please try again later'
 // });
-
-// user routes
-router
-    .route('/')
-    .get(authController.protect,authController.restricTo('admin'), usersController.getAllUsers)
-    .post(usersController.createUser)
-
-router
-    .route('/:id')
-    .get(usersController.getUser)
-    // .patch(usersController.updateUser)
-    .delete(usersController.deleteUser)
-
 
 // auth routes
 router
@@ -53,7 +40,26 @@ router
     .patch(authController.resetPassword)
 
 router
-    .route('/updatePassword')
-    .patch(authController.protect, authController.updatePassword)
+    .route('/updateMyPassword')
+    .patch(authController.protect, validateRequest(updatePasswordSchema), authController.updateMyPassword)
+
+router
+    .route('/updateMyProfile')
+    .patch(authController.protect, validateRequest(updateMyProfileSchema), usersController.updateMyProfile)
+
+// user routes
+router
+    .route('/')
+    .get(authController.protect,authController.restricTo('admin'), usersController.getAllUsers)
+    .post(usersController.createUser)
+
+router
+    .route('/:id')
+    .get(usersController.getUser)
+    .patch(authController.protect, usersController.updateUser)
+    .delete(usersController.deleteUser)
+
+
+
 
 module.exports = router;
