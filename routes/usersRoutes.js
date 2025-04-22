@@ -47,6 +47,10 @@ router
     .route('/updateMyProfile')
     .patch(authController.protect, validateRequest(updateMyProfileSchema), usersController.updateMyProfile)
 
+router
+   .route('/deleteMyProfile')
+   .delete(authController.protect, usersController.deleteMyProfile)
+
 // user routes
 router
     .route('/')
