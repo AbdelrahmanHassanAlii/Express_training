@@ -2,7 +2,7 @@
 const dotenv = require('dotenv');
 // setting up the environment variables before exporting app and starting the server
 dotenv.config({
-    path: './config.env'
+    path: './.env'
 });
 
 const app = require('./index');

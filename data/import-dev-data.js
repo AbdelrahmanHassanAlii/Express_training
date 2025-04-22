@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const fs = require('fs');
 const TourModel = require('../models/tourModel');
 // setting up the environment variables before exporting app and starting the server
-dotenv.config({ path: require('path').resolve(__dirname, '../config.env') });
+dotenv.config({ path: require('path').resolve(__dirname, '../.env') });
 
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours.json`, 'utf-8'));
 
