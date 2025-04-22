@@ -35,6 +35,10 @@ exports.deleteUser = (req, res) => {
     })
 }
 
+exports.deleteMyProfile = catchAsync(async (req, res, next) => {
+    await User.findByIdAndUpdate(req.user.id, { active: false });
+    sendResponse(res, 204, 'User deleted', null);
+})
 
 exports.updateMyProfile = catchAsync(async (req, res, next) => {
     // 1) Filter out the fields that are not allowed to be updated
