@@ -45,7 +45,8 @@ const userSchema = new mongoose.Schema({
     },
     active: {
         type: Boolean,
-        default: true
+        default: true,
+        select: false
     },
     passwordChangedAt: {
         type: Date,
@@ -109,6 +110,12 @@ userSchema.methods.createPasswordResetToken = function () {
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
     return resetToken;
 };
+
+userSchema.pre(/^find/, function (next) {
+  // this points to the current query
+  this.find({ active: true });
+  next();
+});
 
 const User = mongoose.model('User', userSchema);
 
