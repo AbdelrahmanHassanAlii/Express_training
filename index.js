@@ -12,6 +12,7 @@ const tourRouter = require("./routes/touresRouets");
 const DBConnection = require("./DBConnection");
 const AppError = require("./utils/appError");
 const { errorHandler } = require("./controllers/errorController");
+const helmet = require("helmet");
 
 // handle unhandled rejections
 process.on('unhandledRejection', (err) => {
@@ -36,9 +37,11 @@ const globalLimiter = rateLimit({
 
 const app = express();
 // Global middlewares
+
+// Security headers
+app.use(helmet());
 // Middleware to parse JSON body
 app.use(express.json({ limit: '10kb' }));
-
 // Middleware to serve the static files
 app.use(express.static(`${__dirname}/public`));
 
