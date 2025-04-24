@@ -4,6 +4,7 @@
 /* eslint-disable prettier/prettier */
 const express = require("express");
 const morgan = require("morgan");
+const rateLimit = require('express-rate-limit');
 
 const userRouter = require("./routes/usersRoutes");
 const productRouter = require("./routes/productsRoutes");
@@ -26,10 +27,17 @@ process.on('uncaughtException', (err) => {
     process.exit(1);
 })
 
-const app = express();
+// global rate limiter variable
+const globalLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 100, // Limit each IP to 100 requests per window
+    message: 'Too many requests from this IP, please try again later'
+});
 
+const app = express();
+// Global middlewares
 // Middleware to parse JSON body
-app.use(express.json());
+app.use(express.json({ limit: '10kb' }));
 
 // Middleware to serve the static files
 app.use(express.static(`${__dirname}/public`));
@@ -42,6 +50,9 @@ app.use((req, res, next) => {
 
 // middleware to log the request if we in development mode 
 if (process.env.NODE_ENV === 'development') app.use(morgan("dev"))
+
+// apply the global rate limiter
+app.use("/api", globalLimiter);
 
 // connect to MongoDB
 DBConnection();
