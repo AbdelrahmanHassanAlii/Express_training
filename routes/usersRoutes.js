@@ -1,9 +1,10 @@
+/* eslint-disable import/order */
 const express = require("express");
 const usersController = require("../controllers/usersControllers");
 const authController = require("../controllers/authController");
 const validateRequest = require("../middlewares/validateRequest");
 const { createUserSchema, loginUserSchema, updatePasswordSchema, updateMyProfileSchema } = require("../validators/userValidator");
-// const rateLimit = require('express-rate-limit');
+const rateLimit = require('express-rate-limit');
 
 
 // creating the Routes from express 
@@ -15,21 +16,20 @@ router.param(`id`, (req, res, next, val) => {
 })
 
 // auth limiter 
-// const authLimiter = rateLimit({
-//     windowMs: 15 * 60 * 1000, // 15 minutes
-//     max: 10, // Limit each IP to 10 requests per window
-//     message: 'Too many login attempts, please try again later'
-// });
+const authLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000, // 1 hour
+    max: 10, // Limit each IP to 10 requests per window
+    message: 'Too many Sign attempts, please try again later'
+});
 
 // auth routes
 router
     .route('/signup')
-    .post(validateRequest(createUserSchema), authController.signUp)
+    .post(authLimiter, validateRequest(createUserSchema), authController.signUp)
 
 router
     .route('/login')
-    .post(validateRequest(loginUserSchema), authController.logIn)
-//     .post(authLimiter, usersController.logIn)
+    .post(authLimiter, validateRequest(loginUserSchema), authController.logIn)
 
 router
     .route('/forgotPassword')
@@ -48,8 +48,8 @@ router
     .patch(authController.protect, validateRequest(updateMyProfileSchema), usersController.updateMyProfile)
 
 router
-   .route('/deleteMyProfile')
-   .delete(authController.protect, usersController.deleteMyProfile)
+    .route('/deleteMyProfile')
+    .delete(authController.protect, usersController.deleteMyProfile)
 
 // user routes
 router
