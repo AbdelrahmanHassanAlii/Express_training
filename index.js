@@ -13,6 +13,9 @@ const DBConnection = require("./DBConnection");
 const AppError = require("./utils/appError");
 const { errorHandler } = require("./controllers/errorController");
 const helmet = require("helmet");
+const ExpressMongoSanitize = require("express-mongo-sanitize");
+const xssClean = require("xss-clean");
+const hpp = require("hpp");
 
 // handle unhandled rejections
 process.on('unhandledRejection', (err) => {
@@ -42,6 +45,21 @@ const app = express();
 app.use(helmet());
 // Middleware to parse JSON body
 app.use(express.json({ limit: '10kb' }));
+// sanitize data from noSQL query injection
+app.use(ExpressMongoSanitize());
+// sanitize data from xss
+app.use(xssClean());
+// prevent http parameter pollution
+app.use(hpp({
+    whitelist: [
+        'duration',
+        'price',
+        'maxGroupSize',
+        'difficulty',
+        'ratingsAverage',
+        'ratingsQuantity'
+    ]
+}));
 // Middleware to serve the static files
 app.use(express.static(`${__dirname}/public`));
 
