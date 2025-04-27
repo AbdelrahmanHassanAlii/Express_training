@@ -76,6 +76,13 @@ const createTourSchema = Joi.object({
             'array.base': 'Images must be an array',
             'any.required': 'Images are required'
         }),
+    guides: Joi.array()
+        .items(Joi.string())
+        .required()
+        .messages({
+            'array.base': 'Guides must be an array',
+            'any.required': 'Guides are required'
+        }),
     startDates: Joi.array()
         .items(Joi.date())
         .required()
