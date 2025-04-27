@@ -1,6 +1,8 @@
 const express = require("express");
 const touresController = require("../controllers/toursControllers");
 const authController = require("../controllers/authController");
+const validateRequest = require("../middlewares/validateRequest");
+const { createTourSchema } = require("../validators/toursValidator");
 
 // creating the Routes from the express 
 const router = express.Router();
@@ -24,7 +26,7 @@ router
 router
     .route('/')
     .get(authController.protect, touresController.getTours)
-    .post(touresController.createTour)
+    .post(validateRequest(createTourSchema), touresController.createTour)
 
 router
     .route('/:id')
