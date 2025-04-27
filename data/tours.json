@@ -1,10 +1,370 @@
 [
   {
+    "name": "Sahara Desert Expedition",
+    "price": 450,
+    "priceDiscount": 20,
+    "summary": "Traverse golden dunes and sleep under star-filled Saharan skies.",
+    "description": "Ride camels across vast deserts, visit Berber villages, and camp in luxury Bedouin tents...",
+    "duration": 4,
+    "maxGroupSize": 12,
+    "difficulty": "easy",
+    "ratingsAverage": 4.7,
+    "ratingsQuantity": 200,
+    "imageCover": "sahara-desert.jpg",
+    "images": ["desert-1.jpg", "desert-2.jpg", "desert-3.jpg"],
+    "startDates": ["2025-02-10", "2025-11-05"],
+    "startLocation": {
+      "description": "Marrakech, Morocco",
+      "type": "Point",
+      "coordinates": [-8.0081, 31.6295],
+      "address": "Jemaa el-Fna Square"
+    },
+    "locations": [
+      {
+        "description": "Erg Chebbi Dunes",
+        "type": "Point",
+        "coordinates": [-4.0112, 31.1675],
+        "address": "Merzouga, Morocco",
+        "day": 2
+      }
+    ]
+  },
+  {
+    "name": "Amazon Rainforest Adventure",
+    "price": 600,
+    "priceDiscount": 15,
+    "summary": "Explore the world's largest rainforest and its hidden wildlife.",
+    "description": "Navigate rivers by canoe, spot pink dolphins, and learn survival skills from indigenous guides...",
+    "duration": 7,
+    "maxGroupSize": 8,
+    "difficulty": "difficult",
+    "ratingsAverage": 4.9,
+    "ratingsQuantity": 95,
+    "imageCover": "amazon-jungle.jpg",
+    "images": ["jungle-1.jpg", "jungle-2.jpg", "jungle-3.jpg"],
+    "startDates": ["2025-06-15", "2025-09-01"],
+    "startLocation": {
+      "description": "Manaus, Brazil",
+      "type": "Point",
+      "coordinates": [-60.0256, -3.1190],
+      "address": "Amazonas Opera House"
+    },
+    "locations": [
+      {
+        "description": "Meeting of the Waters",
+        "type": "Point",
+        "coordinates": [-60.2505, -3.1356],
+        "address": "Rio Negro",
+        "day": 3
+      }
+    ]
+  },
+  {
+    "name": "Arctic Aurora Adventure",
+    "price": 850,
+    "priceDiscount": 10,
+    "summary": "Witness the magical Northern Lights in Lapland.",
+    "description": "Stay in glass igloos, ride husky sleds, and hunt the aurora borealis with expert guides...",
+    "duration": 3,
+    "maxGroupSize": 6,
+    "difficulty": "easy",
+    "ratingsAverage": 4.8,
+    "ratingsQuantity": 180,
+    "imageCover": "northern-lights.jpg",
+    "images": ["aurora-1.jpg", "aurora-2.jpg", "aurora-3.jpg"],
+    "startDates": ["2025-01-20", "2025-12-10"],
+    "startLocation": {
+      "description": "Rovaniemi, Finland",
+      "type": "Point",
+      "coordinates": [25.7245, 66.5039],
+      "address": "Arctic Circle"
+    },
+    "locations": [
+      {
+        "description": "Santa Claus Village",
+        "type": "Point",
+        "coordinates": [25.8473, 66.5436],
+        "address": "Lapland",
+        "day": 2
+      }
+    ]
+  },
+  {
+    "name": "Machu Picchu Pilgrimage",
+    "price": 700,
+    "priceDiscount": 20,
+    "summary": "Hike the ancient Inca path to the Lost City of the Incas.",
+    "description": "Trek through cloud forests, visit archaeological sites, and watch sunrise over Machu Picchu...",
+    "duration": 4,
+    "maxGroupSize": 12,
+    "difficulty": "difficult",
+    "ratingsAverage": 4.9,
+    "ratingsQuantity": 300,
+    "imageCover": "inca-trail.jpg",
+    "images": ["inca-1.jpg", "inca-2.jpg", "inca-3.jpg"],
+    "startDates": ["2025-05-01", "2025-10-15"],
+    "startLocation": {
+      "description": "Cusco, Peru",
+      "type": "Point",
+      "coordinates": [-71.9673, -13.5319],
+      "address": "Plaza de Armas"
+    },
+    "locations": [
+      {
+        "description": "Sun Gate (Inti Punku)",
+        "type": "Point",
+        "coordinates": [-72.5456, -13.1633],
+        "address": "Machu Picchu",
+        "day": 4
+      }
+    ]
+  },
+  {
+    "name": "Alpine Peaks Explorer",
+    "price": 1200,
+    "priceDiscount": 0,
+    "summary": "Conquer iconic trails in the heart of the Swiss Alps.",
+    "description": "Hike the Eiger Trail, ride mountain railways, and stay in cozy chalets...",
+    "duration": 6,
+    "maxGroupSize": 10,
+    "difficulty": "medium",
+    "ratingsAverage": 4.7,
+    "ratingsQuantity": 130,
+    "imageCover": "swiss-alps.jpg",
+    "images": ["alps-1.jpg", "alps-2.jpg", "alps-3.jpg"],
+    "startDates": ["2025-07-01", "2025-08-20"],
+    "startLocation": {
+      "description": "Interlaken, Switzerland",
+      "type": "Point",
+      "coordinates": [7.8661, 46.6863],
+      "address": "Jungfrau Railway Station"
+    },
+    "locations": [
+      {
+        "description": "Schynige Platte",
+        "type": "Point",
+        "coordinates": [7.9086, 46.6569],
+        "address": "Bernese Oberland",
+        "day": 3
+      }
+    ]
+  },
+  {
+    "name": "Coral Wonderland Adventure",
+    "price": 350,
+    "priceDiscount": 15,
+    "summary": "Swim alongside turtles and tropical fish in Australia's marine paradise.",
+    "description": "Explore vibrant coral gardens, visit Whitsunday Islands, and learn reef conservation...",
+    "duration": 3,
+    "maxGroupSize": 15,
+    "difficulty": "easy",
+    "ratingsAverage": 4.8,
+    "ratingsQuantity": 240,
+    "imageCover": "great-barrier-reef.jpg",
+    "images": ["reef-1.jpg", "reef-2.jpg", "reef-3.jpg"],
+    "startDates": ["2025-04-05", "2025-12-01"],
+    "startLocation": {
+      "description": "Cairns, Australia",
+      "type": "Point",
+      "coordinates": [145.7781, -16.9186],
+      "address": "Cairns Marina"
+    },
+    "locations": [
+      {
+        "description": "Green Island",
+        "type": "Point",
+        "coordinates": [145.9720, -16.7583],
+        "address": "Queensland",
+        "day": 2
+      }
+    ]
+  },
+  {
+    "name": "African Wildlife Safari",
+    "price": 2500,
+    "priceDiscount": 30,
+    "summary": "Track the Big Five in Tanzania's legendary savannah.",
+    "description": "Game drives in Serengeti, witness the Great Migration, and stay in luxury safari lodges...",
+    "duration": 8,
+    "maxGroupSize": 8,
+    "difficulty": "medium",
+    "ratingsAverage": 4.9,
+    "ratingsQuantity": 180,
+    "imageCover": "serengeti-safari.jpg",
+    "images": ["safari-1.jpg", "safari-2.jpg", "safari-3.jpg"],
+    "startDates": ["2025-06-10", "2025-09-25"],
+    "startLocation": {
+      "description": "Arusha, Tanzania",
+      "type": "Point",
+      "coordinates": [36.6826, -3.3869],
+      "address": "Mount Meru Hotel"
+    },
+    "locations": [
+      {
+        "description": "Ngorongoro Crater",
+        "type": "Point",
+        "coordinates": [35.5754, -3.1744],
+        "address": "Ngorongoro Conservation Area",
+        "day": 4
+      }
+    ]
+  },
+  {
+    "name": "Traditional Japan Discovery",
+    "price": 2200,
+    "priceDiscount": 10,
+    "summary": "Experience ancient temples, tea ceremonies, and bullet trains.",
+    "description": "Visit Kyoto's bamboo forest, stay in a ryokan, and learn samurai history...",
+    "duration": 10,
+    "maxGroupSize": 12,
+    "difficulty": "easy",
+    "ratingsAverage": 4.8,
+    "ratingsQuantity": 150,
+    "imageCover": "japan-culture.jpg",
+    "images": ["japan-1.jpg", "japan-2.jpg", "japan-3.jpg"],
+    "startDates": ["2025-03-25", "2025-11-10"],
+    "startLocation": {
+      "description": "Tokyo, Japan",
+      "type": "Point",
+      "coordinates": [139.6917, 35.6895],
+      "address": "Shibuya Crossing"
+    },
+    "locations": [
+      {
+        "description": "Fushimi Inari Shrine",
+        "type": "Point",
+        "coordinates": [135.7727, 34.9671],
+        "address": "Kyoto",
+        "day": 5
+      }
+    ]
+  },
+  {
+    "name": "Canadian Rockies Expedition",
+    "price": 980,
+    "priceDiscount": 25,
+    "summary": "Hike glacial lakes and spot grizzlies in Banff National Park.",
+    "description": "Kayak on turquoise waters, ride the Icefields Parkway, and soak in hot springs...",
+    "duration": 7,
+    "maxGroupSize": 10,
+    "difficulty": "medium",
+    "ratingsAverage": 4.7,
+    "ratingsQuantity": 210,
+    "imageCover": "rocky-mountains.jpg",
+    "images": ["rockies-1.jpg", "rockies-2.jpg", "rockies-3.jpg"],
+    "startDates": ["2025-07-15", "2025-08-30"],
+    "startLocation": {
+      "description": "Banff, Canada",
+      "type": "Point",
+      "coordinates": [-115.5708, 51.1784],
+      "address": "Banff Avenue"
+    },
+    "locations": [
+      {
+        "description": "Lake Louise",
+        "type": "Point",
+        "coordinates": [-116.4247, 51.4254],
+        "address": "Alberta",
+        "day": 3
+      }
+    ]
+  },
+  {
+    "name": "Italian Coastal Bike Tour",
+    "price": 890,
+    "priceDiscount": 20,
+    "summary": "Pedal through lemon groves and cliffside villages overlooking the Mediterranean.",
+    "description": "Cycle the Path of the Gods, taste limoncello, and relax in Positano...",
+    "duration": 5,
+    "maxGroupSize": 8,
+    "difficulty": "medium",
+    "ratingsAverage": 4.8,
+    "ratingsQuantity": 160,
+    "imageCover": "amalfi-coast.jpg",
+    "images": ["amalfi-1.jpg", "amalfi-2.jpg", "amalfi-3.jpg"],
+    "startDates": ["2025-05-10", "2025-09-15"],
+    "startLocation": {
+      "description": "Sorrento, Italy",
+      "type": "Point",
+      "coordinates": [14.3738, 40.6263],
+      "address": "Piazza Tasso"
+    },
+    "locations": [
+      {
+        "description": "Positano",
+        "type": "Point",
+        "coordinates": [14.4843, 40.6281],
+        "address": "Amalfi Coast",
+        "day": 2
+      }
+    ]
+  },
+  {
+    "name": "Everest Base Camp Trek",
+    "price": 1500,
+    "priceDiscount": 0,
+    "summary": "Journey to the foot of the world's highest peak.",
+    "description": "Acclimatize in Namche Bazaar, cross suspension bridges, and meet Sherpa communities...",
+    "duration": 14,
+    "maxGroupSize": 10,
+    "difficulty": "difficult",
+    "ratingsAverage": 4.9,
+    "ratingsQuantity": 250,
+    "imageCover": "everest-trek.jpg",
+    "images": ["himalayas-1.jpg", "himalayas-2.jpg", "himalayas-3.jpg"],
+    "startDates": ["2025-04-01", "2025-10-10"],
+    "startLocation": {
+      "description": "Lukla, Nepal",
+      "type": "Point",
+      "coordinates": [86.7317, 27.6875],
+      "address": "Tenzing-Hillary Airport"
+    },
+    "locations": [
+      {
+        "description": "Kala Patthar",
+        "type": "Point",
+        "coordinates": [86.8299, 27.9881],
+        "address": "Everest Region",
+        "day": 12
+      }
+    ]
+  },
+  {
+    "name": "Aegean Island Adventure",
+    "price": 950,
+    "priceDiscount": 15,
+    "summary": "Sail between whitewashed villages and azure waters.",
+    "description": "Explore Santorini sunsets, Mykonos nightlife, and ancient ruins of Delos...",
+    "duration": 7,
+    "maxGroupSize": 15,
+    "difficulty": "easy",
+    "ratingsAverage": 4.7,
+    "ratingsQuantity": 190,
+    "imageCover": "greek-islands.jpg",
+    "images": ["greece-1.jpg", "greece-2.jpg", "greece-3.jpg"],
+    "startDates": ["2025-06-01", "2025-08-20"],
+    "startLocation": {
+      "description": "Athens, Greece",
+      "type": "Point",
+      "coordinates": [23.7275, 37.9838],
+      "address": "Piraeus Port"
+    },
+    "locations": [
+      {
+        "description": "Oia Village",
+        "type": "Point",
+        "coordinates": [25.3730, 36.4614],
+        "address": "Santorini",
+        "day": 4
+      }
+    ]
+  },
+  {
     "name": "Majestic Nile Cruise",
     "price": 250,
     "priceDiscount": 20,
     "summary": "Enjoy a breathtaking cruise along the Nile with guided tours and luxury accommodations.",
-    "description": "Experience the beauty of the Nile River with this all-inclusive cruise. Enjoy guided historical tours, top-tier dining, and relaxing stays on a 5-star cruise ship. Visit ancient temples and scenic landscapes while cruising through Egypt.",
+    "description": "Experience the beauty of the Nile River with this all-inclusive cruise...",
     "duration": 7,
     "maxGroupSize": 20,
     "difficulty": "medium",
@@ -12,14 +372,43 @@
     "ratingsQuantity": 120,
     "imageCover": "nile-cruise.jpg",
     "images": ["nile-1.jpg", "nile-2.jpg", "nile-3.jpg"],
-    "startDates": ["2025-03-10", "2025-04-15", "2025-05-20"]
+    "startDates": ["2025-03-10", "2025-04-15", "2025-05-20"],
+    "startLocation": {
+      "description": "Cairo, Egypt",
+      "type": "Point",
+      "coordinates": [31.2357, 30.0444],
+      "address": "Cairo International Airport, Egypt"
+    },
+    "locations": [
+      {
+        "description": "Luxor Temple",
+        "type": "Point",
+        "coordinates": [32.6396, 25.6872],
+        "address": "Luxor, Egypt",
+        "day": 2
+      },
+      {
+        "description": "Karnak Temple",
+        "type": "Point",
+        "coordinates": [32.6573, 25.7188],
+        "address": "Luxor, Egypt",
+        "day": 3
+      },
+      {
+        "description": "Aswan High Dam",
+        "type": "Point",
+        "coordinates": [32.8770, 23.9684],
+        "address": "Aswan, Egypt",
+        "day": 5
+      }
+    ]
   },
   {
     "name": "Desert Safari Adventure",
     "price": 180,
     "priceDiscount": 15,
     "summary": "Explore the vast Egyptian desert with an adrenaline-packed safari experience.",
-    "description": "Enjoy an unforgettable adventure in the desert with dune bashing, camel riding, and stargazing at night. Experience Bedouin hospitality, traditional food, and breathtaking sunset views.",
+    "description": "Enjoy an unforgettable adventure in the desert with dune bashing, camel riding, and stargazing...",
     "duration": 3,
     "maxGroupSize": 15,
     "difficulty": "difficult",
@@ -27,14 +416,36 @@
     "ratingsQuantity": 95,
     "imageCover": "desert-safari.jpg",
     "images": ["desert-1.jpg", "desert-2.jpg", "desert-3.jpg"],
-    "startDates": ["2025-03-05", "2025-04-12", "2025-05-18"]
+    "startDates": ["2025-03-05", "2025-04-12", "2025-05-18"],
+    "startLocation": {
+      "description": "Cairo, Egypt",
+      "type": "Point",
+      "coordinates": [31.2357, 30.0444],
+      "address": "Cairo Desert Entrance, Egypt"
+    },
+    "locations": [
+      {
+        "description": "Black Desert",
+        "type": "Point",
+        "coordinates": [28.4833, 28.5833],
+        "address": "Bahariya Oasis, Egypt",
+        "day": 2
+      },
+      {
+        "description": "White Desert",
+        "type": "Point",
+        "coordinates": [28.2167, 27.2667],
+        "address": "Farafra, Egypt",
+        "day": 3
+      }
+    ]
   },
   {
     "name": "Pyramids & Sphinx Tour",
     "price": 120,
     "priceDiscount": 10,
     "summary": "Step back in time with a guided tour of the Great Pyramids and Sphinx.",
-    "description": "Discover the wonders of the ancient world with an expert guide. Explore the Pyramids of Giza, learn about their history, and capture amazing photos of the iconic Sphinx.",
+    "description": "Discover the wonders of the ancient world with an expert guide...",
     "duration": 1,
     "maxGroupSize": 30,
     "difficulty": "easy",
@@ -42,14 +453,36 @@
     "ratingsQuantity": 200,
     "imageCover": "pyramids-tour.jpg",
     "images": ["pyramids-1.jpg", "pyramids-2.jpg", "pyramids-3.jpg"],
-    "startDates": ["2025-02-20", "2025-03-15", "2025-04-10"]
+    "startDates": ["2025-02-20", "2025-03-15", "2025-04-10"],
+    "startLocation": {
+      "description": "Giza, Egypt",
+      "type": "Point",
+      "coordinates": [31.1342, 29.9792],
+      "address": "Giza Pyramid Complex, Egypt"
+    },
+    "locations": [
+      {
+        "description": "Great Pyramid of Khufu",
+        "type": "Point",
+        "coordinates": [31.1342, 29.9792],
+        "address": "Giza, Egypt",
+        "day": 1
+      },
+      {
+        "description": "The Sphinx",
+        "type": "Point",
+        "coordinates": [31.1376, 29.9753],
+        "address": "Giza, Egypt",
+        "day": 1
+      }
+    ]
   },
   {
     "name": "Red Sea Diving Experience",
     "price": 300,
     "priceDiscount": 25,
     "summary": "Dive into the crystal-clear waters of the Red Sea and explore its vibrant marine life.",
-    "description": "Join a professional diving team and explore colorful coral reefs, shipwrecks, and exotic marine species. Ideal for both beginners and experienced divers.",
+    "description": "Join a professional diving team and explore colorful coral reefs, shipwrecks, and exotic marine species...",
     "duration": 5,
     "maxGroupSize": 10,
     "difficulty": "medium",
@@ -57,141 +490,28 @@
     "ratingsQuantity": 150,
     "imageCover": "red-sea-diving.jpg",
     "images": ["diving-1.jpg", "diving-2.jpg", "diving-3.jpg"],
-    "startDates": ["2025-03-08", "2025-04-22", "2025-05-30"]
-  },
-  {
-    "name": "Desert Safari Adventures",
-    "price": 180,
-    "priceDiscount": 15,
-    "summary": "Explore the vast Egyptian desert with an adrenaline-packed safari experience.",
-    "description": "Enjoy an unforgettable adventure in the desert with dune bashing, camel riding, and stargazing at night. Experience Bedouin hospitality, traditional food, and breathtaking sunset views.",
-    "duration": 3,
-    "maxGroupSize": 15,
-    "difficulty": "difficult",
-    "ratingsAverage": 4.7,
-    "ratingsQuantity": 95,
-    "imageCover": "desert-safari.jpg",
-    "images": ["desert-1.jpg", "desert-2.jpg", "desert-3.jpg"],
-    "startDates": ["2025-03-05", "2025-04-12", "2025-05-18"]
-  },
-  {
-    "name": "Amazon Rainforest Expedition",
-    "price": 1200,
-    "priceDiscount": 100,
-    "summary": "Discover the heart of the Amazon jungle with expert guides.",
-    "description": "A once-in-a-lifetime journey into the dense Amazon rainforest. Witness exotic wildlife, canoe through hidden lagoons, and learn from indigenous communities.",
-    "duration": 7,
-    "maxGroupSize": 10,
-    "difficulty": "medium",
-    "ratingsAverage": 4.8,
-    "ratingsQuantity": 120,
-    "imageCover": "amazon-expedition.jpg",
-    "images": ["amazon-1.jpg", "amazon-2.jpg", "amazon-3.jpg"],
-    "startDates": ["2025-06-10", "2025-07-15", "2025-08-20"]
-  },
-  {
-    "name": "Grand Canyon Hiking Tour",
-    "price": 700,
-    "priceDiscount": 50,
-    "summary": "Experience the stunning landscapes of the Grand Canyon.",
-    "description": "Join an expert-led hike through the Grand Canyon. Enjoy breathtaking views, visit hidden trails, and camp under the stars.",
-    "duration": 5,
-    "maxGroupSize": 12,
-    "difficulty": "difficult",
-    "ratingsAverage": 4.6,
-    "ratingsQuantity": 85,
-    "imageCover": "grand-canyon.jpg",
-    "images": ["canyon-1.jpg", "canyon-2.jpg", "canyon-3.jpg"],
-    "startDates": ["2025-05-02", "2025-06-14", "2025-09-10"]
-  },
-  {
-    "name": "Swiss Alps Skiing",
-    "price": 1500,
-    "priceDiscount": 150,
-    "summary": "Enjoy the thrill of skiing in the majestic Swiss Alps.",
-    "description": "A premium skiing experience in the breathtaking Swiss Alps. Enjoy luxurious chalets, professional instructors, and world-class slopes.",
-    "duration": 6,
-    "maxGroupSize": 20,
-    "difficulty": "difficult",
-    "ratingsAverage": 4.9,
-    "ratingsQuantity": 140,
-    "imageCover": "swiss-alps.jpg",
-    "images": ["alps-1.jpg", "alps-2.jpg", "alps-3.jpg"],
-    "startDates": ["2025-12-01", "2026-01-15", "2026-02-20"]
-  },
-  {
-    "name": "Great Barrier Reef Diving",
-    "price": 950,
-    "priceDiscount": 75,
-    "summary": "Dive into the vibrant underwater world of the Great Barrier Reef.",
-    "description": "Explore the largest coral reef system in the world. Snorkel or dive among stunning marine life, colorful corals, and crystal-clear waters.",
-    "duration": 4,
-    "maxGroupSize": 8,
-    "difficulty": "medium",
-    "ratingsAverage": 4.8,
-    "ratingsQuantity": 105,
-    "imageCover": "great-barrier-reef.jpg",
-    "images": ["reef-1.jpg", "reef-2.jpg", "reef-3.jpg"],
-    "startDates": ["2025-07-08", "2025-08-15", "2025-10-05"]
-  },
-  {
-    "name": "Antarctic Cruise Expedition",
-    "price": 3000,
-    "priceDiscount": 250,
-    "summary": "An unforgettable adventure to the coldest and most remote place on Earth.",
-    "description": "Sail to Antarctica and witness breathtaking icebergs, wildlife, and remote research stations. Experience nature like never before.",
-    "duration": 10,
-    "maxGroupSize": 30,
-    "difficulty": "difficult",
-    "ratingsAverage": 4.9,
-    "ratingsQuantity": 95,
-    "imageCover": "antarctica-cruise.jpg",
-    "images": ["antarctica-1.jpg", "antarctica-2.jpg", "antarctica-3.jpg"],
-    "startDates": ["2025-11-25", "2025-12-20", "2026-01-10"]
-  },
-  {
-    "name": "Iceland Northern Lights",
-    "price": 1100,
-    "priceDiscount": 100,
-    "summary": "Chase the magical Northern Lights in Iceland.",
-    "description": "Experience the beauty of Iceland with geysers, waterfalls, and the aurora borealis dancing in the night sky.",
-    "duration": 5,
-    "maxGroupSize": 16,
-    "difficulty": "easy",
-    "ratingsAverage": 4.9,
-    "ratingsQuantity": 125,
-    "imageCover": "northern-lights.jpg",
-    "images": ["iceland-1.jpg", "iceland-2.jpg", "iceland-3.jpg"],
-    "startDates": ["2025-09-10", "2025-10-15", "2025-12-05"]
-  },
-  {
-    "name": "Bali Beach Retreat",
-    "price": 600,
-    "priceDiscount": 50,
-    "summary": "Relax on the beautiful beaches of Bali.",
-    "description": "A tropical getaway with white sandy beaches, turquoise waters, and rejuvenating spa experiences.",
-    "duration": 5,
-    "maxGroupSize": 18,
-    "difficulty": "easy",
-    "ratingsAverage": 4.7,
-    "ratingsQuantity": 110,
-    "imageCover": "bali-beach.jpg",
-    "images": ["bali-1.jpg", "bali-2.jpg", "bali-3.jpg"],
-    "startDates": ["2025-06-05", "2025-07-20", "2025-08-25"]
-  },
-  {
-    "name": "South African Safari",
-    "price": 2200,
-    "priceDiscount": 200,
-    "summary": "Discover Africa’s majestic wildlife in a luxury safari.",
-    "description": "An unforgettable safari experience with expert guides, luxury lodges, and up-close encounters with the Big Five.",
-    "duration": 7,
-    "maxGroupSize": 12,
-    "difficulty": "medium",
-    "ratingsAverage": 4.9,
-    "ratingsQuantity": 130,
-    "imageCover": "safari-south-africa.jpg",
-    "images": ["safari-1.jpg", "safari-2.jpg", "safari-3.jpg"],
-    "startDates": ["2025-08-12", "2025-09-18", "2025-10-30"]
+    "startDates": ["2025-03-08", "2025-04-22", "2025-05-30"],
+    "startLocation": {
+      "description": "Hurghada, Egypt",
+      "type": "Point",
+      "coordinates": [33.8315, 27.2579],
+      "address": "Hurghada Marina, Egypt"
+    },
+    "locations": [
+      {
+        "description": "Giftun Islands",
+        "type": "Point",
+        "coordinates": [33.9482, 27.1876],
+        "address": "Hurghada, Egypt",
+        "day": 2
+      },
+      {
+        "description": "Abu Nuhas Shipwreck",
+        "type": "Point",
+        "coordinates": [34.0089, 27.7089],
+        "address": "Red Sea, Egypt",
+        "day": 3
+      }
+    ]
   }
 ]
