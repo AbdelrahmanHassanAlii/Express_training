@@ -80,6 +80,10 @@ const tourSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    guides: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
     startLocation: {
         type: {
             type: String,
