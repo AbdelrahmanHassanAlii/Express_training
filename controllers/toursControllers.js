@@ -37,7 +37,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
 })
 
 exports.createTour = catchAsync(async (req, res, next) => {
-    const newTour = await TourModel.create(req.body);
+    const newTour = await TourModel.create(req.validatedBody);
     sendResponse(res, 201, 'Tour created', newTour);
 })
 
