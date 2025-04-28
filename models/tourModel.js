@@ -161,6 +161,15 @@ tourSchema.pre(/^find/, function (next) {
     next();
 })
 
+// this find middleware will run before all the find operation like .find() or .findById() etc...
+tourSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'guides',
+        select: '-__v -passwordChangedAt'
+    })
+    next();
+})
+
 // this find middleware will run after all the find operation like .find() or .findById() etc...
 tourSchema.post(/^find/, function (docs, next) {
     console.log(`Query took ${Date.now() - this.startingTime} ms`);
