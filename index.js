@@ -9,6 +9,7 @@ const rateLimit = require('express-rate-limit');
 const userRouter = require("./routes/usersRoutes");
 const productRouter = require("./routes/productsRoutes");
 const tourRouter = require("./routes/touresRouets");
+const reviewsRouter = require("./routes/reviewsRoutes");
 const DBConnection = require("./DBConnection");
 const AppError = require("./utils/appError");
 const { errorHandler } = require("./controllers/errorController");
@@ -82,6 +83,7 @@ DBConnection();
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/tours', tourRouter)
+app.use('/api/v1/reviews', reviewsRouter)
 
 // handle unknown routes
 app.all('*', (req, res, next) => {

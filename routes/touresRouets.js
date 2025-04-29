@@ -34,7 +34,7 @@ router
     .patch(touresController.updateTour)
     .delete(
         authController.protect,
-        authController.restricTo('admin'),
+        authController.restrictTo('admin'),
         touresController.deleteTour)
 
 module.exports = router;

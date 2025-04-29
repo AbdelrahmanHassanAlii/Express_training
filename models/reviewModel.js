@@ -10,6 +10,7 @@ const reviewSchema = new mongoose.Schema({
         type: Number,
         min: 1,
         max: 5,
+        default: 1
     },
     tour:{
         type: mongoose.Schema.Types.ObjectId,

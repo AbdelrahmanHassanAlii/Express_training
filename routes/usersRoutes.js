@@ -54,7 +54,7 @@ router
 // user routes
 router
     .route('/')
-    .get(authController.protect,authController.restricTo('admin'), usersController.getAllUsers)
+    .get(authController.protect,authController.restrictTo('admin'), usersController.getAllUsers)
     .post(usersController.createUser)
 
 router
