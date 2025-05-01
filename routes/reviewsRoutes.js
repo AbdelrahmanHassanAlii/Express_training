@@ -12,11 +12,11 @@ const router = express.Router();
 router
     .route('/:tourId')
     .get(reviewsController.getTourReviews)
-    .post(
-        authController.protect,
-        authController.restrictTo('user'),
-        reviewsController.createReview
-    )
+    // .post(
+    //     authController.protect,
+    //     authController.restrictTo('user'),
+    //     reviewsController.createReview
+    // )
 
 router
     .route('/')

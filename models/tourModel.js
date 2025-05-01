@@ -125,6 +125,13 @@ tourSchema.virtual('netPrice').get(function () {
     return this.price - this.priceDiscount;
 })
 
+// populate reviews
+tourSchema.virtual('reviews', {
+    ref: 'Review',
+    localField: '_id',
+    foreignField: 'tour'
+})
+
 // Document middleware
 
 // this save middleware will run before the save operation like .save() or .create() but not .insertMany()
