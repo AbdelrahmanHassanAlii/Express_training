@@ -38,6 +38,7 @@ router
         authController.restrictTo('admin'),
         touresController.deleteTour)
 
+// reviews routes
 router
     .route('/:tourId/reviews')
     .post(
@@ -45,5 +46,11 @@ router
         authController.restrictTo('user'),
         reviewsController.createReview
     )
+    .get(reviewsController.getTourReviews)
+
+    router
+    .route('/:tourId/reviews/:id')
+    .get(reviewsController.getReview)
+
 
 module.exports = router;
