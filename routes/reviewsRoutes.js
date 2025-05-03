@@ -9,7 +9,11 @@ const router = express.Router({mergeParams: true});
 // review routes
 
 router
-    .get('/all', reviewsController.getAllReviews);
+    .route('/all')
+    .get(
+        authController.protect,
+        authController.restrictTo('admin'),
+        reviewsController.getAllReviews);
 
 router
     .route('/')
@@ -23,6 +27,10 @@ router
 router
     .route('/:id')
     .get(reviewsController.getReview)
+    .delete(
+        authController.protect,
+        reviewsController.deleteReview
+    )
 
 
 
