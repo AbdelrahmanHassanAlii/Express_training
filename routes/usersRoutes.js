@@ -61,7 +61,7 @@ router
     .route('/:id')
     .get(usersController.getUser)
     .patch(authController.protect, usersController.updateUser)
-    .delete(usersController.deleteUser)
+    .delete(authController.protect, authController.restrictTo('admin'), usersController.deleteUser)
 
 
 
