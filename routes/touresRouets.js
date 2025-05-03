@@ -3,12 +3,14 @@ const touresController = require("../controllers/toursControllers");
 const authController = require("../controllers/authController");
 const validateRequest = require("../middlewares/validateRequest");
 const { createTourSchema } = require("../validators/toursValidator");
-const reviewsController = require("../controllers/reviewsController");
+// const reviewsController = require("../controllers/reviewsController");
+const reviewsRouter = require("./reviewsRoutes");
 
 // creating the Routes from the express 
 const router = express.Router();
 
 // router.param(`id`, productsController.checkId)
+router.use('/:tourId/reviews', reviewsRouter)
 
 // custom routes
 router
@@ -37,20 +39,5 @@ router
         authController.protect,
         authController.restrictTo('admin'),
         touresController.deleteTour)
-
-// reviews routes
-router
-    .route('/:tourId/reviews')
-    .post(
-        authController.protect,
-        authController.restrictTo('user'),
-        reviewsController.createReview
-    )
-    .get(reviewsController.getTourReviews)
-
-    router
-    .route('/:tourId/reviews/:id')
-    .get(reviewsController.getReview)
-
 
 module.exports = router;
