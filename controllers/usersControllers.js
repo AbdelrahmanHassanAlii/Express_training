@@ -2,6 +2,7 @@ const User = require("../models/userModel");
 const { catchAsync } = require("../utils/catchAsync");
 const filterObj = require("../utils/filterObj");
 const { sendResponse } = require("../utils/response");
+const { deleteOne } = require("./handlerFactory");
 
 // user routes handlers
 exports.getAllUsers = catchAsync( async (req, res) => {
@@ -28,12 +29,7 @@ exports.updateUser = (req, res) => {
     })
 }
 
-exports.deleteUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "not implemented yet",
-    })
-}
+exports.deleteUser = deleteOne(User)
 
 exports.deleteMyProfile = catchAsync(async (req, res, next) => {
     await User.findByIdAndUpdate(req.user.id, { active: false });

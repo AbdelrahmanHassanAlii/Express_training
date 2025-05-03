@@ -3,6 +3,7 @@ const ReviewModel = require("../models/reviewModel");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
+const { deleteOne } = require("./handlerFactory");
 
 
 // get all reviews
@@ -39,3 +40,5 @@ exports.createReview = catchAsync(async (req, res, next) => {
     });
     sendResponse(res, 201, "Review created", newReview);
 });
+
+exports.deleteReview = deleteOne(ReviewModel);

@@ -4,6 +4,7 @@ const ApiFeatures = require("../utils/apiFeatures");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
+const { deleteOne } = require("./handlerFactory");
 
 // custom routes
 exports.get2Cheapest = async (req, res, next) => {
@@ -53,14 +54,7 @@ exports.updateTour = catchAsync(async (req, res, next) => {
     sendResponse(res, 200, 'Tour updated', tour);
 })
 
-exports.deleteTour = catchAsync(async (req, res, next) => {
-    const { id } = req.params
-    const tour = await TourModel.findByIdAndDelete(id);
-    if (!tour) {
-        return next(new AppError('No tour found with that ID', 404));
-    }
-    sendResponse(res, 204, 'Tour deleted', tour);
-})
+exports.deleteTour = deleteOne(TourModel);
 
 exports.tourStats = catchAsync(async (req, res, next) => {
     const stats = await TourModel.aggregate([
