@@ -2,7 +2,7 @@ const express = require("express");
 const touresController = require("../controllers/toursControllers");
 const authController = require("../controllers/authController");
 const validateRequest = require("../middlewares/validateRequest");
-const { createTourSchema } = require("../validators/toursValidator");
+const { createTourSchema, updateTourSchema } = require("../validators/toursValidator");
 // const reviewsController = require("../controllers/reviewsController");
 const reviewsRouter = require("./reviewsRoutes");
 
@@ -34,7 +34,7 @@ router
 router
     .route('/:id')
     .get(touresController.getTour)
-    .patch(touresController.updateTour)
+    .patch(authController.protect, authController.restrictTo('admin'), validateRequest(updateTourSchema), touresController.updateTour)
     .delete(
         authController.protect,
         authController.restrictTo('admin'),
