@@ -108,4 +108,39 @@ const createTourSchema = Joi.object({
     ).required()
 });
 
-module.exports = { createTourSchema };
+const updateTourSchema = Joi.object({
+    name: Joi.string().min(2).max(30).trim(),
+    price: Joi.number(),
+    priceDiscount: Joi.number(),
+    description: Joi.string().min(10).max(350).trim(),
+    summary: Joi.string().min(10).max(100).trim(),
+    duration: Joi.number(),
+    maxGroupSize: Joi.number(),
+    difficulty: Joi.string().valid('easy', 'medium', 'difficult'),
+    ratingsAverage: Joi.number(),
+    ratingsQuantity: Joi.number(),
+    imageCover: Joi.string(),
+    images: Joi.array().items(Joi.string()),
+    guides: Joi.array().items(Joi.string()),
+    startDates: Joi.array().items(Joi.date()),
+    secretTour: Joi.boolean(),
+    startLocation: Joi.object({
+        type: Joi.string().valid('Point'),
+        coordinates: Joi.array().items(Joi.number()).length(2),
+        address: Joi.string(),
+        description: Joi.string()
+    }),
+    locations: Joi.array().items(
+        Joi.object({
+            type: Joi.string().valid('Point'),
+            coordinates: Joi.array().items(Joi.number()).length(2),
+            address: Joi.string(),
+            description: Joi.string(),
+            day: Joi.number()
+        })
+    )
+}).min(1);
+
+
+
+module.exports = { createTourSchema, updateTourSchema };
