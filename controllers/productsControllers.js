@@ -2,7 +2,7 @@ const ProductModel = require("../models/productModel");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
-const { deleteOne } = require("./handlerFactory");
+const { deleteOne, updateOne } = require("./handlerFactory");
 
 // products routes Controller
 exports.getProducts = catchAsync(async (req, res, next) => {
@@ -24,18 +24,6 @@ exports.createProduct = catchAsync(async (req, res, next) => {
     sendResponse(res, 201, 'Product created', newProduct);
 })
 
-exports.updateProduct = catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const product = await ProductModel.findByIdAndUpdate(id, req.body, {
-        new: true,
-        runValidators: true
-    });
-
-    if (!product) {
-        return next(new AppError('No product found with that ID', 404));
-    }
-
-    sendResponse(res, 200, 'Product updated', product);
-})
+exports.updateProduct = updateOne(ProductModel)
 
 exports.deleteProduct = deleteOne(ProductModel)
