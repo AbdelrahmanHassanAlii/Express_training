@@ -3,7 +3,7 @@ const express = require("express");
 const usersController = require("../controllers/usersControllers");
 const authController = require("../controllers/authController");
 const validateRequest = require("../middlewares/validateRequest");
-const { signupUserSchema, loginUserSchema, updatePasswordSchema, updateMyProfileSchema } = require("../validators/userValidator");
+const { signupUserSchema, loginUserSchema, updatePasswordSchema, updateMyProfileSchema, createUserSchema, updateUserSchema, updateUserPasswordSchema } = require("../validators/userValidator");
 const rateLimit = require('express-rate-limit');
 
 
@@ -49,18 +49,22 @@ router
 
 router
     .route('/deleteMyProfile')
-    .delete(authController.protect, usersController.deleteMyProfile)
+    .delete(authController.protect, authController.restrictTo('user', 'guide'), usersController.deleteMyProfile)
+
+router
+    .route('/updateUserPassword/:id')
+    .patch(authController.protect, authController.restrictTo('admin'), validateRequest(updateUserPasswordSchema), usersController.updateUserPassword)
 
 // user routes
 router
     .route('/')
     .get(authController.protect,authController.restrictTo('admin'), usersController.getAllUsers)
-    .post(usersController.createUser)
+    .post(authController.protect, authController.restrictTo('admin'), validateRequest(createUserSchema), usersController.createUser)
 
 router
     .route('/:id')
     .get(usersController.getUser)
-    .patch(authController.protect, usersController.updateUser)
+    .patch(authController.protect, authController.restrictTo('admin'), validateRequest(updateUserSchema), usersController.updateUser)
     .delete(authController.protect, authController.restrictTo('admin'), usersController.deleteUser)
 
 

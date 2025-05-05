@@ -29,7 +29,7 @@ router
 router
     .route('/')
     .get(authController.protect, touresController.getTours)
-    .post(validateRequest(createTourSchema), touresController.createTour)
+    .post(authController.protect, authController.restrictTo('admin'), validateRequest(createTourSchema), touresController.createTour)
 
 router
     .route('/:id')
