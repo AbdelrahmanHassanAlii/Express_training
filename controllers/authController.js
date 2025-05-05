@@ -8,17 +8,9 @@ const AppError = require("../utils/appError")
 const { catchAsync } = require("../utils/catchAsync")
 const sendEmail = require('../utils/email');
 const { createSendToken, sendResponse } = require('../utils/response');
-const filterObj = require('../utils/filterObj');
+const { createOne } = require('./handlerFactory');
 
-
-exports.signUp = catchAsync(async (req, res, next) => {
-    // get validated data from previous middleware
-    const filtereddObj = filterObj(req.validatedBody, 'name', 'email', 'password', 'passwordConfirm');
-    // create user
-    const user = await User.create(filtereddObj);
-    // generate token and return response
-    createSendToken(user, 201, res);
-});
+exports.signUp = createOne(User)
 
 exports.logIn = catchAsync(async (req, res, next) => {
     // get validated data from previous middleware
