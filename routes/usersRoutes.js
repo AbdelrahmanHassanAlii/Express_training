@@ -3,7 +3,7 @@ const express = require("express");
 const usersController = require("../controllers/usersControllers");
 const authController = require("../controllers/authController");
 const validateRequest = require("../middlewares/validateRequest");
-const { createUserSchema, loginUserSchema, updatePasswordSchema, updateMyProfileSchema } = require("../validators/userValidator");
+const { signupUserSchema, loginUserSchema, updatePasswordSchema, updateMyProfileSchema } = require("../validators/userValidator");
 const rateLimit = require('express-rate-limit');
 
 
@@ -25,7 +25,7 @@ const authLimiter = rateLimit({
 // auth routes
 router
     .route('/signup')
-    .post(authLimiter, validateRequest(createUserSchema), authController.signUp)
+    .post(authLimiter, validateRequest(signupUserSchema), authController.signUp)
 
 router
     .route('/login')
