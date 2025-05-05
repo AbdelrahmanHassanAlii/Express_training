@@ -2,7 +2,7 @@ const ProductModel = require("../models/productModel");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
-const { deleteOne, updateOne } = require("./handlerFactory");
+const { deleteOne, updateOne, createOne } = require("./handlerFactory");
 
 // products routes Controller
 exports.getProducts = catchAsync(async (req, res, next) => {
@@ -19,10 +19,7 @@ exports.getProduct = catchAsync(async (req, res, next) => {
     sendResponse(res, 200, 'Product details', product);
 })
 
-exports.createProduct = catchAsync(async (req, res, next) => {
-    const newProduct = await ProductModel.create(req.body);
-    sendResponse(res, 201, 'Product created', newProduct);
-})
+exports.createProduct = createOne(ProductModel)
 
 exports.updateProduct = updateOne(ProductModel)
 

@@ -1,4 +1,5 @@
 const User = require("../models/userModel");
+const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 // const filterObj = require("../utils/filterObj");
 const { sendResponse } = require("../utils/response");
@@ -10,8 +11,11 @@ exports.getAllUsers = catchAsync( async (req, res) => {
     sendResponse(res, 200, 'All users', users, { count: users.length});
 })
 
-exports.getUser = catchAsync( async (req, res) => {
+exports.getUser = catchAsync( async (req, res, next) => {
     const user = await User.findById(req.params.id);
+    if (!user) {
+        return next(new AppError('No user found with that ID', 404));
+    }
     sendResponse(res, 200, 'User details', user);
 })
 
@@ -22,12 +26,18 @@ exports.createUser = (req, res) => {
     })
 }
 
-exports.updateUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "not implemented yet",
-    })
-}
+exports.updateUser = updateOne(User)
+
+exports.updateUserPassword = catchAsync(async (req, res, next) => {
+    const user = await User.findById(req.params.id).select('+password');
+    if (!user) {
+        return next(new AppError('No user found with that ID', 404));
+    }
+    user.password = req.validatedBody.password;
+    user.passwordConfirm = req.validatedBody.passwordConfirm;
+    await user.save();
+    sendResponse(res, 200, 'User password updated', user);
+})
 
 exports.deleteUser = deleteOne(User)
 

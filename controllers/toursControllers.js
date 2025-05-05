@@ -4,7 +4,7 @@ const ApiFeatures = require("../utils/apiFeatures");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
-const { deleteOne, updateOne } = require("./handlerFactory");
+const { deleteOne, updateOne, createOne } = require("./handlerFactory");
 
 // custom routes
 exports.get2Cheapest = async (req, res, next) => {
@@ -37,10 +37,7 @@ exports.getTour = catchAsync(async (req, res, next) => {
     sendResponse(res, 200, 'Tour details', tour);
 })
 
-exports.createTour = catchAsync(async (req, res, next) => {
-    const newTour = await TourModel.create(req.validatedBody);
-    sendResponse(res, 201, 'Tour created', newTour);
-})
+exports.createTour = createOne(TourModel)
 
 exports.updateTour = updateOne(TourModel)
 
