@@ -60,6 +60,45 @@ const createUserSchema = Joi.object({
         .default(true)
 });
 
+const signupUserSchema = Joi.object({
+    name: Joi.string()
+        .required()
+        .min(2)
+        .max(30)
+        .messages({
+            'string.empty': 'Name is required',
+            'string.min': 'Name should have at least {#limit} characters',
+            'string.max': 'Name should not exceed {#limit} characters'
+        }),
+
+    email: Joi.string()
+        .required()
+        .email()
+        .lowercase()
+        .messages({
+            'string.empty': 'Email is required',
+            'string.email': 'Please provide a valid email address'
+        }),
+
+    password: Joi.string()
+        .required()
+        .min(8)
+        .custom(passwordComplexity, 'Password strength validation')
+        .messages({
+            'string.empty': 'Password is required',
+            'string.min': 'Password should have at least {#limit} characters',
+            'password.complexity': 'Password is too weak. Include uppercase, numbers, and special characters'
+        }),
+
+    passwordConfirm: Joi.string()
+        .required()
+        .valid(Joi.ref('password'))
+        .messages({
+            'any.only': 'Passwords do not match',
+            'string.empty': 'Please confirm your password'
+        }),
+})
+
 const loginUserSchema = Joi.object({
     email: Joi.string()
         .required()
@@ -137,6 +176,7 @@ const updatePasswordSchema = Joi.object({
 
 module.exports = {
     createUserSchema,
+    signupUserSchema,
     loginUserSchema,
     updateMyProfileSchema,
     updatePasswordSchema
