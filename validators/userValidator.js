@@ -60,6 +60,60 @@ const createUserSchema = Joi.object({
         .default(true)
 });
 
+const updateUserSchema = Joi.object({
+    name: Joi.string()
+        .min(2)
+        .max(30)
+        .messages({
+            'string.empty': 'Name is required',
+            'string.min': 'Name should have at least {#limit} characters',
+            'string.max': 'Name should not exceed {#limit} characters'
+        }),
+
+    email: Joi.string()
+        .email()
+        .lowercase()
+        .messages({
+            'string.empty': 'Email is required',
+            'string.email': 'Please provide a valid email address'
+        }),
+
+        password: Joi.forbidden().messages({
+            'any.unknown': 'You cannot update password from this route! if you want to update password please use /updateUserPassword'
+        }),
+    
+        passwordConfirm: Joi.forbidden().messages({
+            'any.unknown': 'You cannot update password from this route! if you want to update password please use /updateUserPassword'
+        }),
+
+    role: Joi.string()
+        .valid('user', 'admin', 'guide'),
+
+    photo: Joi.string(),
+
+    active: Joi.boolean()
+}).min(1);
+
+const updateUserPasswordSchema = Joi.object({
+    password: Joi.string()
+        .required()
+        .min(8)
+        .custom(passwordComplexity, 'Password strength validation')
+        .messages({
+            'string.empty': 'Password is required',
+            'string.min': 'Password should have at least {#limit} characters',
+            'password.complexity': 'Password is too weak. Include uppercase, numbers, and special characters'
+        }),
+    
+    passwordConfirm: Joi.string()
+        .required()
+        .valid(Joi.ref('password'))
+        .messages({
+            'any.only': 'Passwords do not match',
+            'string.empty': 'Please confirm your password'
+        })
+})
+
 const signupUserSchema = Joi.object({
     name: Joi.string()
         .required()
@@ -176,6 +230,8 @@ const updatePasswordSchema = Joi.object({
 
 module.exports = {
     createUserSchema,
+    updateUserSchema,
+    updateUserPasswordSchema,
     signupUserSchema,
     loginUserSchema,
     updateMyProfileSchema,
