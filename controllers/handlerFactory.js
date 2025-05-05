@@ -2,6 +2,18 @@ const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
 
+exports.createOne = (Model, getExtraFields = () => ({})) =>
+    catchAsync(async (req, res, next) => {
+        req.body = req.validatedBody || req.body;
+        const data = {
+            ...req.body,
+            ...getExtraFields(req)
+        };
+
+        const doc = await Model.create(data);
+        sendResponse(res, 201, 'Document created successfully', doc);
+    });
+
 exports.deleteOne = Model => catchAsync(async (req, res, next) => {
     const { id } = req.params;
     const doc = await Model.findByIdAndDelete(id);
