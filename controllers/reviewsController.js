@@ -3,7 +3,7 @@ const ReviewModel = require("../models/reviewModel");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
-const { deleteOne, updateOne } = require("./handlerFactory");
+const { deleteOne, updateOne, createOne } = require("./handlerFactory");
 
 
 // get all reviews
@@ -31,15 +31,7 @@ exports.getReview = catchAsync(async (req, res, next) => {
 });
 
 // create review route
-exports.createReview = catchAsync(async (req, res, next) => {
-    const newReview = await ReviewModel.create({
-        tour: req.params.tourId,
-        user: req.user.id,
-        review: req.body.review,
-        rate: req.body.rate
-    });
-    sendResponse(res, 201, "Review created", newReview);
-});
+exports.createReview = createOne(ReviewModel, (req) => ({ tour: req.params.tourId, user: req.user.id }));
 
 exports.updateReview = updateOne(ReviewModel);
 
