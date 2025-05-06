@@ -4,7 +4,7 @@ const ApiFeatures = require("../utils/apiFeatures");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
-const { deleteOne, updateOne, createOne, getOne } = require("./handlerFactory");
+const { deleteOne, updateOne, createOne, getOne, getAll } = require("./handlerFactory");
 
 // custom routes
 exports.get2Cheapest = async (req, res, next) => {
@@ -15,19 +15,7 @@ exports.get2Cheapest = async (req, res, next) => {
     next();
 }
 // products routes Controller
-exports.getTours = catchAsync(async (req, res, next) => {
-    const apiFeatures = new ApiFeatures(TourModel.find(), req.query)
-        .filter()
-        .sort()
-        .limitFields()
-        .paginate();
-
-    // await the query
-    const tours = await apiFeatures.query;
-
-    // return the response
-    sendResponse(res, 200, 'All tours', tours, { total: tours.length, requestedAt: req.requestTime });
-})
+exports.getTours = getAll(TourModel)
 
 exports.getTour = getOne(TourModel, { path: 'reviews' })
 

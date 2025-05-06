@@ -1,3 +1,4 @@
+const ApiFeatures = require("../utils/apiFeatures");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
@@ -48,7 +49,24 @@ exports.getOne = (Model, populateOptions) => catchAsync(async (req, res, next) =
     sendResponse(res, 200, 'Document details', doc);
 })
 
-exports.getAll = Model => catchAsync(async (req, res, next) => {
-    const docs = await Model.find();
-    sendResponse(res, 200, 'All documents', docs, { total: docs.length, requestedAt: req.requestTime });
-})
+exports.getAll = (Model, filter = {}) => catchAsync(async (req, res, next) => {
+    // If the filter values are functions (like: { tour: (req) => req.params.tourId }),
+    console.log(filter)
+    // evaluate them using req
+    const evaluatedFilter = Object.entries(filter).reduce((acc, [key, value]) => {
+        acc[key] = typeof value === 'function' ? value(req) : value;
+        return acc;
+    }, {});
+    const apiFeatures = new ApiFeatures(Model.find(evaluatedFilter), req.query)
+        .filter()
+        .sort()
+        .limitFields()
+        .paginate();
+
+    const docs = await apiFeatures.query;
+
+    sendResponse(res, 200, 'All documents', docs, {
+        total: docs.length,
+        requestedAt: req.requestTime
+    });
+});

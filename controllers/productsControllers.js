@@ -2,14 +2,10 @@ const ProductModel = require("../models/productModel");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
-const { deleteOne, updateOne, createOne, getOne } = require("./handlerFactory");
+const { deleteOne, updateOne, createOne, getOne, getAll } = require("./handlerFactory");
 
 // products routes Controller
-exports.getProducts = catchAsync(async (req, res, next) => {
-        const products = await ProductModel.find();
-        sendResponse(res, 200, 'All products', products, { total: products.length, requestedAt: req.requestTime });
-    }
-)
+exports.getProducts = getAll(ProductModel)
 
 exports.getProduct = getOne(ProductModel)
 
