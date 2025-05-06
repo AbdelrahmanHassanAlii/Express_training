@@ -37,3 +37,18 @@ exports.updateOne = Model => catchAsync(async (req, res, next) => {
     }
     sendResponse(res, 200, 'Document updated successfully', doc);
 });
+
+exports.getOne = (Model, populateOptions) => catchAsync(async (req, res, next) => {
+    let query = Model.findById(req.params.id)
+    if (populateOptions) query = query.populate(populateOptions)
+    const doc = await query;
+    if (!doc) {
+        return next(new AppError('No document found with that ID', 404));
+    }
+    sendResponse(res, 200, 'Document details', doc);
+})
+
+exports.getAll = Model => catchAsync(async (req, res, next) => {
+    const docs = await Model.find();
+    sendResponse(res, 200, 'All documents', docs, { total: docs.length, requestedAt: req.requestTime });
+})
