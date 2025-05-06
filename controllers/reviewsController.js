@@ -3,7 +3,7 @@ const ReviewModel = require("../models/reviewModel");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 const { sendResponse } = require("../utils/response");
-const { deleteOne, updateOne, createOne } = require("./handlerFactory");
+const { deleteOne, updateOne, createOne, getOne } = require("./handlerFactory");
 
 
 // get all reviews
@@ -22,13 +22,10 @@ exports.getTourReviews = catchAsync(async (req, res, next) => {
 });
 
 // get review by id
-exports.getReview = catchAsync(async (req, res, next) => {
-    const review = await ReviewModel.findById(req.params.id);
-    if (!review) {
-        return next(new AppError('No review found with that ID', 404));
-    }
-    sendResponse(res, 200, "Review details", review);
-});
+exports.getReview = getOne(ReviewModel, [
+    { path: 'tour', select: 'name price priceDiscount duration -guides' },
+    { path: 'user', select: 'name' }
+    ])
 
 // create review route
 exports.createReview = createOne(ReviewModel, (req) => ({ tour: req.params.tourId, user: req.user.id }));
