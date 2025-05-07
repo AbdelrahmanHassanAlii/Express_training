@@ -40,6 +40,10 @@ router
     .patch(authController.resetPassword)
 
 router
+    .route('/me')
+    .get(authController.protect, usersController.getMy, usersController.getUser)
+
+router
     .route('/updateMyPassword')
     .patch(authController.protect, validateRequest(updatePasswordSchema), authController.updateMyPassword)
 
@@ -63,7 +67,7 @@ router
 
 router
     .route('/:id')
-    .get(usersController.getUser)
+    .get(authController.protect, authController.restrictTo('admin'), usersController.getUser)
     .patch(authController.protect, authController.restrictTo('admin'), validateRequest(updateUserSchema), usersController.updateUser)
     .delete(authController.protect, authController.restrictTo('admin'), usersController.deleteUser)
 

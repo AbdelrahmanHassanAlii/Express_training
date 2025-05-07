@@ -3,28 +3,19 @@ const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
 // const filterObj = require("../utils/filterObj");
 const { sendResponse } = require("../utils/response");
-const { deleteOne, updateOne } = require("./handlerFactory");
+const { deleteOne, updateOne, getAll, getOne, createOne } = require("./handlerFactory");
 
 // user routes handlers
-exports.getAllUsers = catchAsync( async (req, res) => {
-    const users = await User.find();
-    sendResponse(res, 200, 'All users', users, { count: users.length});
-})
+exports.getAllUsers = getAll(User)
 
-exports.getUser = catchAsync( async (req, res, next) => {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-        return next(new AppError('No user found with that ID', 404));
-    }
-    sendResponse(res, 200, 'User details', user);
-})
-
-exports.createUser = (req, res) => {
-    res.status(500).json({
-        status: "error",
-        message: "not implemented yet",
-    })
+exports.getMy = (req, res, next) => {
+    req.params.id = req.user.id;
+    next();
 }
+
+exports.getUser = getOne(User)
+
+exports.createUser = createOne(User)
 
 exports.updateUser = updateOne(User)
 

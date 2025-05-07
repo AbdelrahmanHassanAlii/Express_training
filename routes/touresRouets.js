@@ -23,12 +23,11 @@ router
 
 router
     .route('/monthly-plan/:year')
-    .get(touresController.getMonthlyPlans)
+    .get(authController.protect, authController.restrictTo('admin'), touresController.getMonthlyPlans)
 
-// product routes
 router
     .route('/')
-    .get(authController.protect, touresController.getTours)
+    .get(touresController.getTours)
     .post(authController.protect, authController.restrictTo('admin'), validateRequest(createTourSchema), touresController.createTour)
 
 router

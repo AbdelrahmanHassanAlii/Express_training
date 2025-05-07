@@ -9,11 +9,6 @@ const { deleteOne, updateOne, createOne, getOne, getAll } = require("./handlerFa
 // get all reviews
 exports.getAllReviews = getAll(ReviewModel)
 
-// exports.setTourFilter = (req, res, next) => {
-//     req.filter = { tour: req.params.tourId };
-//     next();
-// };
-// get all reviews about specific tour id
 exports.getTourReviews = getAll(ReviewModel, { tour: (req) => req.params.tourId });
 // get review by id
 exports.getReview = getOne(ReviewModel, [
