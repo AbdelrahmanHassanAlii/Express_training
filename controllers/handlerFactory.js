@@ -1,3 +1,4 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
 const ApiFeatures = require("../utils/apiFeatures");
 const AppError = require("../utils/appError");
 const { catchAsync } = require("../utils/catchAsync");
@@ -51,7 +52,6 @@ exports.getOne = (Model, populateOptions) => catchAsync(async (req, res, next) =
 
 exports.getAll = (Model, filter = {}) => catchAsync(async (req, res, next) => {
     // If the filter values are functions (like: { tour: (req) => req.params.tourId }),
-    console.log(filter)
     // evaluate them using req
     const evaluatedFilter = Object.entries(filter).reduce((acc, [key, value]) => {
         acc[key] = typeof value === 'function' ? value(req) : value;
