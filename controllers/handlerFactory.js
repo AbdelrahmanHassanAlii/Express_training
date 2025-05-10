@@ -63,6 +63,7 @@ exports.getAll = (Model, filter = {}) => catchAsync(async (req, res, next) => {
         .limitFields()
         .paginate();
 
+    // const docs = await apiFeatures.query.explain();
     const docs = await apiFeatures.query;
 
     sendResponse(res, 200, 'All documents', docs, {
