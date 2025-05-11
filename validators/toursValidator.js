@@ -62,7 +62,7 @@ const createTourSchema = Joi.object({
             'any.only': 'Difficulty must be one of easy, medium, or difficult',
             'string.empty': 'Difficulty is required'
         }),
-    ratingsAverage: Joi.number().default(0),
+    ratingsAverage: Joi.number().default(0).min(1).max(5),
     ratingsQuantity: Joi.number().default(0),
     imageCover: Joi.string()
         .required()
