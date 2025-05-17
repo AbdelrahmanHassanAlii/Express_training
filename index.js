@@ -5,6 +5,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const rateLimit = require('express-rate-limit');
+const path = require('path');
 
 const userRouter = require("./routes/usersRoutes");
 const productRouter = require("./routes/productsRoutes");
@@ -40,7 +41,15 @@ const globalLimiter = rateLimit({
 });
 
 const app = express();
+
+// set the view engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 // Global middlewares
+
+// Middleware to serve the static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Security headers
 app.use(helmet());
@@ -61,8 +70,6 @@ app.use(hpp({
         'ratingsQuantity'
     ]
 }));
-// Middleware to serve the static files
-app.use(express.static(`${__dirname}/public`));
 
 // Middleware to measure the time it takes to execute the request
 app.use((req, res, next) => {
@@ -80,6 +87,12 @@ app.use("/api", globalLimiter);
 DBConnection();
 
 // creating the middleware for the Routes
+app.get('/', (req, res) => {
+    res.status(200).render('base', {
+        title: 'The Park Camunda',
+        message: 'Welcome to the Park Camunda website'
+    });
+})
 app.use('/api/v1/products', productRouter)
 app.use('/api/v1/users', userRouter)
 app.use('/api/v1/tours', tourRouter)
